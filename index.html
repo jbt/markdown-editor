@@ -12,6 +12,19 @@
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
+    /* Some horrible inline CSS because I'm mixing CodeMirror versions to make it not-crash */
+    .cm-s-default span.cm-header {color: #2f2f4f; font-weight:bold;}
+    .cm-s-default span.cm-code {color: #666;}
+    .cm-s-default span.cm-quote {color: #090;}
+    .cm-s-default span.cm-list {color: #a50;}
+    .cm-s-default span.cm-hr {color: #999;}
+    .cm-s-default span.cm-linktext {color: #00c; text-decoration: underline;}
+    .cm-s-default span.cm-linkhref {color: #00c;}
+    .cm-s-default span.cm-em {font-style: italic;}
+    .cm-s-default span.cm-strong {font-weight: bold;}
+    .cm-s-default span.cm-emstrong {font-style: italic; font-weight: bold;}
+
+
     .CodeMirror pre{
       line-height: 12px;
     }
@@ -42,7 +55,25 @@
 </head>
 <body>
   <div id="in"><form><textarea id="code">
-Write something...
+# (GitHub-Flavored) Markdown Editor
+
+I'm no good at writing sample / filler text, so go write something yourself.
+
+Look, a list!
+
+ * foo
+ * bar
+ * baz
+
+And here's some code!
+
+```javascript
+$(function(){
+  $('div').html('I am a div.');
+});
+```
+This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
+
   </textarea></form></div>
   <div id="out"></div>
 
