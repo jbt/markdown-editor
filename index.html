@@ -102,6 +102,19 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
       onChange: update
     });
 
+    document.addEventListener('drop', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      var theFile = e.dataTransfer.files[0];
+      var theReader = new FileReader();
+      theReader.onload = function(e){
+        editor.setValue(e.target.result);
+      };
+
+      theReader.readAsText(theFile);
+    }, false);
+
     update(editor);
 
     editor.focus();
