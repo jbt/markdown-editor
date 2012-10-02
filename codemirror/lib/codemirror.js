@@ -1,5 +1,3 @@
-// CodeMirror version 2.34
-
 // All functions that need access to the editor's state live inside
 // the CodeMirror function. Below that, at the bottom of the file,
 // some utilities are defined.
@@ -77,7 +75,7 @@ window.CodeMirror = (function() {
     // Selection-related flags. shiftSelecting obviously tracks
     // whether the user is holding shift.
     var shiftSelecting, lastClick, lastDoubleClick, lastScrollTop = 0, draggingText,
-        overwrite = false, suppressEdits = false;
+        overwrite = false, suppressEdits = false, pasteIncoming = false;
     // Variables used by startOperation/endOperation to track what
     // happened during the operation.
     var updateInput, userSelChange, changes, textChanged, selectionChanged,
@@ -130,7 +128,7 @@ window.CodeMirror = (function() {
       connect(scroller, "drop", operation(onDrop));
     }
     connect(scroller, "paste", function(){focusInput(); fastPoll();});
-    connect(input, "paste", fastPoll);
+    connect(input, "paste", function(){pasteIncoming = true; fastPoll();});
     connect(input, "cut", operation(function(){
       if (!options.readOnly) replaceSelection("");
     }));
@@ -169,6 +167,7 @@ window.CodeMirror = (function() {
         else if (option == "lineWrapping" && oldVal != value) operation(wrappingChanged)();
         else if (option == "tabSize") updateDisplay(true);
         else if (option == "keyMap") keyMapChanged();
+        else if (option == "tabindex") input.tabIndex = value;
         if (option == "lineNumbers" || option == "gutter" || option == "firstLineNumber" ||
             option == "theme" || option == "lineNumberFormatter") {
           gutterChanged();
@@ -956,12 +955,13 @@ window.CodeMirror = (function() {
       while (same < l && prevInput[same] == text[same]) ++same;
       if (same < prevInput.length)
         sel.from = {line: sel.from.line, ch: sel.from.ch - (prevInput.length - same)};
-      else if (overwrite && posEq(sel.from, sel.to))
+      else if (overwrite && posEq(sel.from, sel.to) && !pasteIncoming)
         sel.to = {line: sel.to.line, ch: Math.min(getLine(sel.to.line).text.length, sel.to.ch + (text.length - same))};
       replaceSelection(text.slice(same), "end");
       if (text.length > 1000) { input.value = prevInput = ""; }
       else prevInput = text;
       if (!nestedOperation) endOperation();
+      pasteIncoming = false;
       return true;
     }
     function resetInput(user) {
@@ -1462,6 +1462,7 @@ window.CodeMirror = (function() {
 
       if (indentString != curSpaceString)
         replaceRange(indentString, {line: n, ch: 0}, {line: n, ch: curSpaceString.length});
+      line.stateAfter = null;
     }
 
     function loadMode() {
@@ -2206,6 +2207,7 @@ window.CodeMirror = (function() {
     var name = keyNames[e_prop(event, "keyCode")];
     return name == "Ctrl" || name == "Alt" || name == "Shift" || name == "Mod";
   }
+  CodeMirror.isModifierKey = isModifierKey;
 
   CodeMirror.fromTextArea = function(textarea, options) {
     if (!options) options = {};
@@ -3137,7 +3139,7 @@ window.CodeMirror = (function() {
     for (var i = 1; i <= 12; i++) keyNames[i + 111] = keyNames[i + 63235] = "F" + i;
   })();
 
-  CodeMirror.version = "2.34";
+  CodeMirror.version = "2.34 +";
 
   return CodeMirror;
 })();
