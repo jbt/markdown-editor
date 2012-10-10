@@ -65,6 +65,10 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
   <div id="out"></div>
 
   <script>
+    var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+    navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
+    window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
+
     function update(e){
       var val = e.getValue();
       document.getElementById('out').innerHTML = SD.makeHtml(val);
@@ -101,6 +105,37 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
 
       theReader.readAsText(theFile);
     }, false);
+
+    function save(){
+      var code = editor.getValue();
+      var blob = new Blob([code], { type: 'text/plain' });
+      saveBlob(blob);
+    }
+
+    function saveBlob(blob){
+      var name = "untitled.md";
+      if(window.saveAs){
+        window.saveAs(blob, name);
+      }else if(navigator.saveBlob){
+        navigator.saveBlob(blob, name);
+      }else{
+        url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.setAttribute("href",url);
+        link.setAttribute("download",name);
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+        link.dispatchEvent(event);
+      }
+    }
+
+    document.addEventListener('keydown', function(e){
+      if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
+        e.preventDefault();
+        save();
+        return false;
+      }
+    })
 
     update(editor);
 
