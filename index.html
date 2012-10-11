@@ -9,6 +9,8 @@
   <script src="codemirror/markdown/markdown.js"></script>
   <script src="codemirror/gfm/gfm.js"></script>
   <script src="codemirror/javascript/javascript.js"></script>
+  <script src="rawinflate.js"></script>
+  <script src="rawdeflate.js"></script>
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
@@ -81,6 +83,9 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
         c.className += ' ' + (c.getAttribute('language') || 'no-highlight');
         hljs.highlightBlock(c);
       }
+
+      clearTimeout(hashto);
+      hashto = setTimeout(updateHash, 1000);
     }
 
     var SD = new Showdown.converter();
@@ -136,6 +141,17 @@ This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I'
         return false;
       }
     })
+
+    var hashto;
+
+    function updateHash(){
+      window.location.hash = btoa(RawDeflate.deflate(editor.getValue()));
+    }
+
+    if(window.location.hash){
+      editor.setValue(RawDeflate.inflate(atob(window.location.hash.replace(/^#/, ''))));
+    }
+
 
     update(editor);
 
