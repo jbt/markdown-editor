@@ -43,8 +43,14 @@
   </style>
 </head>
 <body>
-  <div id="in"><form><textarea id="code">
-# (GitHub-Flavored) Markdown Editor
+  <div id="in"><form><textarea id="code"># (GitHub-Flavored) Markdown Editor
+
+Basic useful feature list:
+
+ * Ctrl/Cmd + S to save the file
+ * Drag and drop a file into here to load it
+ * File contents are saved in the URL so you can share files
+
 
 I'm no good at writing sample / filler text, so go write something yourself.
 
@@ -63,7 +69,10 @@ $(function(){
 ```
 
 This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
-  </textarea></form></div>
+
+
+Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
+the inspiration to this, and some handy implementation hints, came.</textarea></form></div>
   <div id="out"></div>
 
   <script>
