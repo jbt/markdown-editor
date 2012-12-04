@@ -136,6 +136,7 @@ this.makeHtml = function(text) {
   // contorted like /[ \t]*\n+/ .
   text = text.replace(/^[ \t]+$/mg,"");
 
+  text = _DoFencedCodeBlocks(text);
 
   // Turn block-level HTML blocks into hash entries
   text = _HashHTMLBlocks(text);
@@ -860,24 +861,10 @@ _ProcessListItems = function(list_str) {
   return list_str;
 }
 
-
-var _DoCodeBlocks = function(text) {
-//
+var _DoFencedCodeBlocks = function(text){
+  //
 //  Process Markdown `<pre><code>` blocks.
 //
-
-  /*
-    text = text.replace(text,
-      /(?:\n\n|^)
-      (               // $1 = the code block -- one or more lines, starting with a space/tab
-        (?:
-          (?:[ ]{4}|\t)     // Lines must start with a tab or a tab-width of spaces - attacklab: g_tab_width
-          .*\n+
-        )+
-      )
-      (\n*[ ]{0,3}[^ \t\n]|(?=~0))  // attacklab: g_tab_width
-    /g,function(){...});
-  */
 
   // attacklab: sentinel workarounds for lack of \A and \Z, safari\khtml bug
   text += "~0";
@@ -908,6 +895,33 @@ var _DoCodeBlocks = function(text) {
       return hashBlock(codeblock);
     }
   );
+
+  // attacklab: strip sentinel
+  text = text.replace(/~0/,"");
+
+  return text;
+}
+
+var _DoCodeBlocks = function(text) {
+//
+//  Process Markdown `<pre><code>` blocks.
+//
+
+  /*
+    text = text.replace(text,
+      /(?:\n\n|^)
+      (               // $1 = the code block -- one or more lines, starting with a space/tab
+        (?:
+          (?:[ ]{4}|\t)     // Lines must start with a tab or a tab-width of spaces - attacklab: g_tab_width
+          .*\n+
+        )+
+      )
+      (\n*[ ]{0,3}[^ \t\n]|(?=~0))  // attacklab: g_tab_width
+    /g,function(){...});
+  */
+
+  // attacklab: sentinel workarounds for lack of \A and \Z, safari\khtml bug
+  text += "~0";
 
   text = text.replace(/(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/g,
     function(wholeMatch,m1,m2) {

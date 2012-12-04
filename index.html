@@ -40,6 +40,15 @@
       overflow: auto;
       padding: 10px;
     }
+
+    @media screen and (max-width: 1024px) {
+      #in {
+        display: none;
+      }
+      #out {
+        left: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -89,6 +98,11 @@ the inspiration to this, and some handy implementation hints, came.
 
     function update(e){
       var val = e.getValue();
+
+      val = val.replace(/<equation>((.*?\n)*?)<\/equation>/ig, function(a, b){
+        return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
+      });
+
       document.getElementById('out').innerHTML = SD.makeHtml(val);
 
       var codes = document.querySelectorAll('pre code');
