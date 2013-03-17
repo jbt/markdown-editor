@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Markdown Editor</title>
-  <script src="showdown.js"></script>
+  <script src="marked.js"></script>
   <script src="highlight.pack.js"></script>
   <script src="codemirror/lib/codemirror.js"></script>
   <script src="codemirror/xml/xml.js"></script>
@@ -99,7 +99,8 @@
     dd { margin: 0 0 0 2em; }
     img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
     table { border-collapse: collapse; border-spacing: 0; }
-td { vertical-align: top; }
+    td, th { vertical-align: top; padding: 4px 10px; border: 1px solid #bbb; }
+    tr:nth-child(even) td, tr:nth-child(even) th { background: #eee; }
   </style>
 </head>
 <body>
@@ -136,16 +137,23 @@ the inspiration to this, and some handy implementation hints, came.
 
 ### Stuff used to make this:
 
- * [showdown.js](https://github.com/coreyti/showdown) (my own port with fixes and tweaks) for Markdown parsing
+ * [marked](https://github.com/chjj) for Markdown parsing
  * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
  * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
- * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs</textarea></form></div>
+ * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
+</textarea></form></div>
   <div id="out"></div>
 
   <script>
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
+
+    marked.setOptions({
+      highlight: function(code, lang){
+        return hljs.highlight(lang, code).value
+      }
+    })
 
     function update(e){
       var val = e.getValue();
@@ -154,22 +162,12 @@ the inspiration to this, and some handy implementation hints, came.
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
-      document.getElementById('out').innerHTML = SD.makeHtml(val);
-
-      var codes = document.querySelectorAll('pre code');
-      var cl = codes.length;
-      for(var i = 0; i < cl; i += 1){
-        var c = codes[i];
-        if(!c.lang)
-        c.className += ' ' + (c.getAttribute('language') || 'no-highlight');
-        hljs.highlightBlock(c);
-      }
+      document.getElementById('out').innerHTML = marked(val);
 
       clearTimeout(hashto);
       hashto = setTimeout(updateHash, 1000);
     }
 
-    var SD = new Showdown.converter();
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: 'gfm',
       lineNumbers: true,
