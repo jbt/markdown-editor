@@ -150,7 +150,7 @@ the inspiration to this, and some handy implementation hints, came.
     function update(e){
       var val = e.getValue();
 
-      val = val.replace(/<equation>((.*?\n)*?)<\/equation>/ig, function(a, b){
+      val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
