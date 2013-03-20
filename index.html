@@ -151,7 +151,7 @@ the inspiration to this, and some handy implementation hints, came.
 
     marked.setOptions({
       highlight: function(code, lang){
-        return hljs.highlight(lang, code).value
+        return hljs.LANGUAGES[lang] ? hljs.highlight(lang, code).value : code;
       }
     })
 
