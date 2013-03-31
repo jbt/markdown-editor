@@ -149,11 +149,18 @@ the inspiration to this, and some handy implementation hints, came.
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
 
+    // Because highlight.js is a bit awkward at times
+    var languageOverrides = [
+      js: 'javascript',
+      html: 'xml'
+    ]
+
     marked.setOptions({
       highlight: function(code, lang){
+        if(languageOverrides[lang]) lang = languageOverrides[lang];
         return hljs.LANGUAGES[lang] ? hljs.highlight(lang, code).value : code;
       }
-    })
+    });
 
     function update(e){
       var val = e.getValue();
