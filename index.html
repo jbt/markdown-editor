@@ -150,10 +150,10 @@ the inspiration to this, and some handy implementation hints, came.
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
 
     // Because highlight.js is a bit awkward at times
-    var languageOverrides = [
+    var languageOverrides = {
       js: 'javascript',
       html: 'xml'
-    ]
+    }
 
     marked.setOptions({
       highlight: function(code, lang){
