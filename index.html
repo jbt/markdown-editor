@@ -57,6 +57,14 @@
       }
     }
 
+    .view #in {
+      display: none;
+    }
+    .view #out {
+      left: 0;
+      padding-left: 10px;
+    }
+
     a{ color: #0645ad; text-decoration:none;}
     a:visited{ color: #0b0080; }
     a:hover{ color: #06e; }
@@ -165,14 +173,18 @@ the inspiration to this, and some handy implementation hints, came.
     function update(e){
       var val = e.getValue();
 
+      setOutput(val);
+
+      clearTimeout(hashto);
+      hashto = setTimeout(updateHash, 1000);
+    }
+
+    function setOutput(val){
       val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
       document.getElementById('out').innerHTML = marked(val);
-
-      clearTimeout(hashto);
-      hashto = setTimeout(updateHash, 1000);
     }
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
@@ -235,14 +247,19 @@ the inspiration to this, and some handy implementation hints, came.
     }
 
     if(window.location.hash){
-      editor.setValue(RawDeflate.inflate(atob(window.location.hash.replace(/^#/, ''))));
+      var h = window.location.hash.replace(/^#/, '');
+      if(h.slice(0,5) == 'view:'){
+        setOutput(RawDeflate.inflate(atob(h.slice(5))));
+        document.body.className = 'view';
+      }else{
+        editor.setValue(RawDeflate.inflate(atob(h)));
+        update(editor);
+        editor.focus();
+      }
+    }else{
+      update(editor);
+      editor.focus();
     }
-
-
-    update(editor);
-
-    editor.focus();
-
 
     var GoSquared = { acct: 'GSN-265185-D' };
   </script>
