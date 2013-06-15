@@ -243,16 +243,16 @@ the inspiration to this, and some handy implementation hints, came.
     var hashto;
 
     function updateHash(){
-      window.location.hash = btoa(RawDeflate.deflate(editor.getValue()));
+      window.location.hash = btoa(RawDeflate.deflate(unescape(encodeURIComponent(editor.getValue()))))
     }
 
     if(window.location.hash){
       var h = window.location.hash.replace(/^#/, '');
       if(h.slice(0,5) == 'view:'){
-        setOutput(RawDeflate.inflate(atob(h.slice(5))));
+        setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
         document.body.className = 'view';
       }else{
-        editor.setValue(RawDeflate.inflate(atob(h)));
+        editor.setValue(decodeURIComponent(escape(RawDeflate.inflate(atob(h)))))
         update(editor);
         editor.focus();
       }
