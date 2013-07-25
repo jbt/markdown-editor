@@ -116,7 +116,8 @@ pre .status {
   font-weight: bold;
 }
 
-pre .markdown .emphasis .comment {
+pre .markdown .emphasis,
+pre .comment {
   font-style: italic;
 }
 
