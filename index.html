@@ -151,8 +151,7 @@ the inspiration to this, and some handy implementation hints, came.
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
 </textarea></form></div>
   <div id="out"></div>
-
-  <script>
+  <script type="text/javascript">
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
@@ -209,14 +208,19 @@ the inspiration to this, and some handy implementation hints, came.
       theReader.readAsText(theFile);
     }, false);
 
-    function save(){
+    function saveAsMarkdown(){
       var code = editor.getValue();
       var blob = new Blob([code], { type: 'text/plain' });
-      saveBlob(blob);
+      saveBlob(blob, "untitled.md");
     }
 
-    function saveBlob(blob){
-      var name = "untitled.md";
+    function saveAsHtml() {
+      var code = document.getElementById('out').innerHTML;
+      var blob = new Blob([code], { type: 'text/plain' });
+      saveBlob(blob, "untitled.html");
+    }
+
+    function saveBlob(blob, name){
       if(window.saveAs){
         window.saveAs(blob, name);
       }else if(navigator.saveBlob){
@@ -235,7 +239,7 @@ the inspiration to this, and some handy implementation hints, came.
     document.addEventListener('keydown', function(e){
       if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
         e.preventDefault();
-        save();
+        saveAsHtml();
         return false;
       }
     })
