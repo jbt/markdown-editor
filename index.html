@@ -113,9 +113,11 @@
 </head>
 <body>
   <div id="in"><form><textarea id="code">---
-  title: (GitHub-Flavored) Markdown Editor with YAML front matter support
-  ---
-  # (GitHub-Flavored) Markdown Editor
+ title: (GitHub-Flavored) Markdown Editor with YAML front matter support
+---
+
+(GitHub-Flavored) Markdown Editor with YAML front matter support
+===
 
 Basic useful feature list:
 
@@ -142,16 +144,15 @@ $(function(){
 
 This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
 
-
 Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
 the inspiration to this, and some handy implementation hints, came.
 
 ### Stuff used to make this:
-
  * [marked](https://github.com/chjj) for Markdown parsing
  * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
  * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
+
 </textarea></form></div>
   <div id="out"></div>
 
@@ -186,7 +187,7 @@ the inspiration to this, and some handy implementation hints, came.
       val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
-      val = val.replace(/^---.*---\s*/mg, ""); // ignore YAML front matter
+      val = val.replace(/^\s*---\s*(\n([^-]|-(?!-))*)+---\s*/, ""); // ignore YAML front matter
       document.getElementById('out').innerHTML = marked(val);
     }
 
