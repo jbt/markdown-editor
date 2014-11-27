@@ -112,7 +112,10 @@
   </style>
 </head>
 <body>
-  <div id="in"><form><textarea id="code"># (GitHub-Flavored) Markdown Editor
+  <div id="in"><form><textarea id="code">---
+  title: (GitHub-Flavored) Markdown Editor with YAML front matter support
+  ---
+  # (GitHub-Flavored) Markdown Editor
 
 Basic useful feature list:
 
@@ -183,7 +186,7 @@ the inspiration to this, and some handy implementation hints, came.
       val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
-
+      val = val.replace(/^---.*---\s*/mg, ""); // ignore YAML front matter
       document.getElementById('out').innerHTML = marked(val);
     }
 
