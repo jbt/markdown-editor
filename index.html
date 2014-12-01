@@ -161,6 +161,18 @@ the inspiration to this, and some handy implementation hints, came.
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
 
+	if (!String.prototype.startsWith) {
+	  Object.defineProperty(String.prototype, 'startsWith', {
+		enumerable: false,
+		configurable: false,
+		writable: false,
+		value: function(searchString, position) {
+		  position = position || 0;
+		  return this.lastIndexOf(searchString, position) === position;
+		}
+	  });
+	}
+	
     // Because highlight.js is a bit awkward at times
     var languageOverrides = {
       js: 'javascript',
@@ -215,12 +227,12 @@ the inspiration to this, and some handy implementation hints, came.
 
     function save(){
       var code = editor.getValue();
+	  var fileName = getFileNameFromTitle(code);
       var blob = new Blob([code], { type: 'text/plain' });
-      saveBlob(blob);
+      saveBlob(blob, fileName);
     }
 
-    function saveBlob(blob){
-      var name = "untitled.md";
+    function saveBlob(blob, name){
       if(window.saveAs){
         window.saveAs(blob, name);
       }else if(navigator.saveBlob){
@@ -235,7 +247,7 @@ the inspiration to this, and some handy implementation hints, came.
         link.dispatchEvent(event);
       }
     }
-
+	
     document.addEventListener('keydown', function(e){
       if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
         e.preventDefault();
@@ -265,8 +277,29 @@ the inspiration to this, and some handy implementation hints, came.
       editor.focus();
     }
 
-    var GoSquared = { acct: 'GSN-265185-D' };
+	function getFileNameFromTitle(text) {
+		if ((!text) || text.trim() == '')
+			return "untitled.md";
+		var matches = text.match(/^\s*---\s*(\n([^-]|-(?!-))*)+---\s*/);
+		if (matches) {
+			matches.forEach(function (item) { 
+				if (item && item.trim().startsWith('title')) 
+					title = item.split(':')[1].trim();
+			});
+		} else {
+			var lineEnd = text.indexOf("\n");
+			if (lineEnd > 1)
+				title = text.substring(0, lineEnd);
+		}
+		if (!title)
+			title = text.substring(0, 250);
+		title = title.toLowerCase();
+		title = title.replace(/[\(\)<>*|^]+/g,"");
+		title = title.replace(/[\s:;,\\\/\?"]+/g,"-");
+		title = title.replace(/^-+|-+$/g, "");
+		title = title + ".md";
+		return title;
+	}
   </script>
-  <script src="//d1l6p2sc9645hc.cloudfront.net/tracker.js" async></script>
 </body>
 </html>
