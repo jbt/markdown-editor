@@ -11,6 +11,7 @@
   <script src="codemirror/javascript/javascript.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans' />
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
@@ -42,9 +43,9 @@
       padding: 10px;
       padding-left: 20px;
       color: #444;
-      font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      line-height: 1.5em
+      line-height: 1.35em
     }
 
     @media screen and (max-width: 1024px) {
@@ -76,14 +77,10 @@
 
     img{max-width:100%;}
 
-    h1,h2,h3,h4,h5,h6{font-weight:normal;color:#111;line-height:1em;}
-    h4,h5,h6{ font-weight: bold; }
-    h1{ font-size:2.5em; }
-    h2{ font-size:2em; border-bottom:1px solid silver; padding-bottom: 5px; }
-    h3{ font-size:1.5em; }
-    h4{ font-size:1.2em; }
-    h5{ font-size:1em; }
-    h6{ font-size:0.9em; }
+    h1,h2,h3,h4,h5,h6 {
+	  font-family: 'Open Sans', sans-serif;
+	  line-height: 1.05em;
+	}
 
     blockquote{color:#666666;margin:0;padding-left: 3em;border-left: 0.5em #EEE solid;}
     hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
@@ -112,24 +109,67 @@
   </style>
 </head>
 <body>
-  <div id="in"><form><textarea id="code"># (GitHub-Flavored) Markdown Editor
+  <div id="in"><form><textarea id="code">---
+ title: (GitHub-Flavored) Markdown Editor with YAML front matter support
+---
 
-Basic useful feature list:
+Features List
+---
 
  * Ctrl/Cmd + S to save the file
+ * Title front matter becomes filename
  * Drag and drop a file into here to load it
  * File contents are saved in the URL so you can share files
 
+Examples from  [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/)
+---
 
-I'm no good at writing sample / filler text, so go write something yourself.
+### Multiple underscores in words
 
-Look, a list!
+"Normal" Markdown transforms underscores (_) into italics, such that wow_great_stuff becomes wow<i>great</i>stuff.
 
- * foo
- * bar
- * baz
+It is not reasonable to italicize just part of a word, especially when you're dealing with code and names often appear with multiple underscores. Therefore, GFM ignores underscores in words, like this:
 
-And here's some code!
+ * wow_great_stuff
+ * do_this_and_do_that_and_another_thing.
+
+### URL autolinking
+
+GFM will autolink standard URLs, so if you want to link to a URL (instead of setting link text), you can simply enter the URL and it will be turned into a link to that URL.
+
+So that ```http://example.com``` becomes http://example.com
+
+### Strikethrough
+
+GFM adds syntax to create strikethrough text, which is missing from standard Markdown.
+
+So that ```~~Mistaken text.~~``` becomes ~~Mistaken text.~~
+
+### Fenced code blocks
+
+Standard Markdown converts text with four spaces at the beginning of each line into a code block; GFM also supports fenced blocks. Just wrap your code in ``` (as shown below) and you won't need to indent it by four spaces. Note that although fenced code blocks don't have to be preceded by a blank line—unlike indented code blocks—we recommend placing a blank line before them to make the raw Markdown easier to read.
+
+Here's an example:
+
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
+Keep in mind that, within lists, you must indent non-fenced code blocks eight spaces to render them properly.
+
+### Syntax highlighting
+
+Code blocks can be taken a step further by adding syntax highlighting. In your fenced block, add an optional language identifier and we'll run it through syntax highlighting. For example, to syntax highlight Ruby code:
+
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+We use Linguist to perform language detection and syntax highlighting. You can find out which keywords are valid by perusing the languages YAML file.
+
+And here's some javascript code!
 
 ```javascript
 $(function(){
@@ -137,18 +177,48 @@ $(function(){
 });
 ```
 
-This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
+### Tables
 
+You can create tables by assembling a list of words and dividing them with hyphens - (for the first row), and then separating each column with a pipe | , and you can also add extra pipes on the ends:
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
+You can also include inline Markdown such as links, bold, italics, or strikethrough:
+
+| Name | Description          |
+| ------------- | ----------- |
+| Help      | ~~Display the~~ help window.|
+| Close     | _Closes_ a window     |
+
+Finally, by including colons : within the header row, you can define text to be left-aligned, right-aligned, or center-aligned:
+
+| Left-Aligned  | Center Aligned  | Right Aligned |
+| :------------ |:---------------:| -----:|
+| col 3 is      | some wordy text | $1600 |
+| col 2 is      | centered        |   $12 |
+| zebra stripes | are neat        |    $1 |
+
+A colon on the left-most side indicates a left-aligned column; a colon on the right-most side indicates a right-aligned column; a colon on both sides indicates a center-aligned column.
+
+This fork is [on GitHub](https://github.com/monoman/markdown-editor).
+
+Thanks
+---
+
+Thanks to [James Taylor](https://github.com/jbt) who created this thing. :)
 
 Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
-the inspiration to this, and some handy implementation hints, came.
+the inspiration to this, and some handy implementation hints, came to James.
 
 ### Stuff used to make this:
-
  * [marked](https://github.com/chjj) for Markdown parsing
  * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
  * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
+
 </textarea></form></div>
   <div id="out"></div>
 
@@ -157,6 +227,18 @@ the inspiration to this, and some handy implementation hints, came.
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
 
+	if (!String.prototype.startsWith) {
+	  Object.defineProperty(String.prototype, 'startsWith', {
+		enumerable: false,
+		configurable: false,
+		writable: false,
+		value: function(searchString, position) {
+		  position = position || 0;
+		  return this.lastIndexOf(searchString, position) === position;
+		}
+	  });
+	}
+	
     // Because highlight.js is a bit awkward at times
     var languageOverrides = {
       js: 'javascript',
@@ -183,7 +265,10 @@ the inspiration to this, and some handy implementation hints, came.
       val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
-
+	  var title = getFrontMatterTitle(val);
+      val = val.replace(/^\s*---\s*(\n([^-]|-(?!-))*)+---\s*/, ""); // ignore YAML front matter
+	  if (title)
+		val = title + "\n===\n" + val; // inline with what some layouts do inside Jekyll
       document.getElementById('out').innerHTML = marked(val);
     }
 
@@ -211,12 +296,12 @@ the inspiration to this, and some handy implementation hints, came.
 
     function save(){
       var code = editor.getValue();
+	  var fileName = getFileNameFromTitle(code);
       var blob = new Blob([code], { type: 'text/plain' });
-      saveBlob(blob);
+      saveBlob(blob, fileName);
     }
 
-    function saveBlob(blob){
-      var name = "untitled.md";
+    function saveBlob(blob, name){
       if(window.saveAs){
         window.saveAs(blob, name);
       }else if(navigator.saveBlob){
@@ -231,7 +316,7 @@ the inspiration to this, and some handy implementation hints, came.
         link.dispatchEvent(event);
       }
     }
-
+	
     document.addEventListener('keydown', function(e){
       if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
         e.preventDefault();
@@ -261,8 +346,44 @@ the inspiration to this, and some handy implementation hints, came.
       editor.focus();
     }
 
-    var GoSquared = { acct: 'GSN-265185-D' };
+	function getFrontMatterTitle(text) {
+		if (!text)
+			return text;
+		var matches = text.match(/^\s*---\s*(\n([^-]|-(?!-))*)+---\s*/);
+		if (matches) {
+			matches.forEach(function (item) { 
+				var found = false;
+				if (item && !found) {
+					var lines = item.split('\n');
+					lines.forEach(function (line) { 
+						if (line && line.trim().startsWith('title')) {
+							title = line.split(':')[1].trim();
+							found = true;
+						}
+					});
+				}
+			});
+		}
+		return title;
+	}
+	function getFileNameFromTitle(text) {
+		if ((!text) || text.trim() == '')
+			return "untitled.md";
+		var title = getFrontMatterTitle(text);
+		if (!title) {
+			var lineEnd = text.indexOf("\n");
+			if (lineEnd > 1)
+				title = text.substring(0, lineEnd);
+			else
+				title = text.substring(0, 250);
+		}
+		title = title.toLowerCase();
+		title = title.replace(/[\(\)<>*|^]+/g,"");
+		title = title.replace(/[\s:;,\\\/\?"]+/g,"-");
+		title = title.replace(/^-+|-+$/g, "");
+		title = title + ".md";
+		return title;
+	}
   </script>
-  <script src="//d1l6p2sc9645hc.cloudfront.net/tracker.js" async></script>
 </body>
 </html>
