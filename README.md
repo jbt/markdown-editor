@@ -6,8 +6,7 @@ License:BSD
 -----------
 _(Previously [WTFPL](http://www.wtfpl.net/txt/copying/))_
 
-Copyright (c) 2015, Rafael Teixeira
-All rights reserved.
+Copyright (c) 2015 Rafael Teixeira. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
