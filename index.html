@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
+    body {margin: 0;}
     .CodeMirror pre{
       line-height: 14px;
     }
@@ -45,6 +46,21 @@
       font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
       font-size: 16px;
       line-height: 1.5em
+    }
+
+    #menu {
+      position: absolute;
+      background-color: #fff;
+      border-bottom: 1px solid #999;
+      margin: 0;
+      padding: 15px;
+      z-index: 99;
+      list-style: none;
+      width: 100%;
+    }
+    #menu li a {
+      display: inline-block;
+      padding: 15px;
     }
 
     @media screen and (max-width: 1024px) {
@@ -151,8 +167,12 @@ the inspiration to this, and some handy implementation hints, came.
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
 </textarea></form></div>
   <div id="out"></div>
-
-  <script>
+  <ul id="menu">
+    <h3>Save as</h3>
+    <li><a id="saveas-markdown">Save as Markdown</a></li>
+    <li><a id="saveas-html">Save as HTML</a></li>
+  </ul>
+  <script type="text/javascript">
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
@@ -209,14 +229,31 @@ the inspiration to this, and some handy implementation hints, came.
       theReader.readAsText(theFile);
     }, false);
 
-    function save(){
+    function saveAsMarkdown(){
       var code = editor.getValue();
       var blob = new Blob([code], { type: 'text/plain' });
-      saveBlob(blob);
+      saveBlob(blob, "untitled.md");
     }
 
-    function saveBlob(blob){
-      var name = "untitled.md";
+    document.getElementById('saveas-markdown').addEventListener('click', function() {
+      saveAsMarkdown();
+      hideMenu();
+      return false;
+    });
+
+    function saveAsHtml() {
+      var code = document.getElementById('out').innerHTML;
+      var blob = new Blob([code], { type: 'text/plain' });
+      saveBlob(blob, "untitled.html");
+    }
+
+    document.getElementById('saveas-html').addEventListener('click', function() {
+      saveAsHtml();
+      hideMenu();
+      return false;
+    });
+
+    function saveBlob(blob, name){
       if(window.saveAs){
         window.saveAs(blob, name);
       }else if(navigator.saveBlob){
@@ -232,10 +269,19 @@ the inspiration to this, and some handy implementation hints, came.
       }
     }
 
+    function showMenu() {
+      document.getElementById('menu').style.display = 'block';
+    }
+
+    function hideMenu() {
+      document.getElementById('menu').style.display = 'none';
+    }
+    hideMenu();
+
     document.addEventListener('keydown', function(e){
       if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
         e.preventDefault();
-        save();
+        showMenu();
         return false;
       }
     })
@@ -260,9 +306,6 @@ the inspiration to this, and some handy implementation hints, came.
       update(editor);
       editor.focus();
     }
-
-    var GoSquared = { acct: 'GSN-265185-D' };
   </script>
-  <script src="//d1l6p2sc9645hc.cloudfront.net/tracker.js" async></script>
 </body>
 </html>
