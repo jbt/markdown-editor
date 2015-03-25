@@ -15,6 +15,7 @@
   <script src="codemirror/htmlmixed/htmlmixed.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
+  <link rel="stylesheet" href="base16-light.css">
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
@@ -94,6 +95,14 @@
         padding-left: 10px;
       }
     }
+
+    .cm-header-1 { font-size: 2em; }
+    .cm-header-2 { font-size: 1.75em; }
+    .cm-header-3 { font-size: 1.5em; }
+    .cm-header-4 { font-size: 1.3em; }
+    .cm-header-5 { font-size: 1.2em; }
+    .cm-header-6 { font-size: 1.15em; }
+
 
     .view #in {
       display: none;
@@ -253,10 +262,10 @@ the inspiration to this, and some handy implementation hints, came.
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: 'gfm',
-      lineNumbers: true,
+      lineNumbers: false,
       matchBrackets: true,
       lineWrapping: true,
-      theme: 'default',
+      theme: 'base16-light',
       onChange: update
     });
 
