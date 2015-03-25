@@ -215,8 +215,24 @@ the inspiration to this, and some handy implementation hints, came.
       });
 
       var out = document.getElementById('out');
+      var old = out.cloneNode(true);
       out.innerHTML = marked(val);
       emojify.run(out);
+
+      var allold = old.getElementsByTagName("*");
+      if (allold === undefined) {
+        return;
+      }
+      var allnew = out.getElementsByTagName("*");
+      if (allnew === undefined) {
+        return;
+      }
+      for (var i = 0, max = Math.min(allold.length, allnew.length); i < max; i++) {
+        if (!allold[i].isEqualNode(allnew[i])) {
+          out.scrollTop = allnew[i].offsetTop;
+          return;
+        }
+      }
     }
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
