@@ -6,32 +6,48 @@
   <script src="highlight.pack.js"></script>
   <script src="emojify.js"></script>
   <script src="codemirror/lib/codemirror.js"></script>
+  <script src="codemirror/overlay.js"></script>
   <script src="codemirror/xml/xml.js"></script>
   <script src="codemirror/markdown/markdown.js"></script>
   <script src="codemirror/gfm/gfm.js"></script>
   <script src="codemirror/javascript/javascript.js"></script>
+  <script src="codemirror/css/css.js"></script>
+  <script src="codemirror/htmlmixed/htmlmixed.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
     body {margin: 0;}
+
     .CodeMirror pre{
-      line-height: 14px;
+      line-height: 16px;
     }
-    #in, .CodeMirror{
+
+    #in{
       position: fixed;
       top: 0;
       left: 0;
       bottom: 0;
       width: 50%;
+      height: auto;
       overflow: auto;
       font-size: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      box-shadow: -10px 2px 10px 10px rgba(0,0,0,0.2);
     }
+
+    .CodeMirror {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: auto;
+      height: auto;
+    }
+
     .CodeMirror-scroll {
-      height: 100%;
-      min-height: 100%;
+      padding: 30px;
     }
 
     #out{
