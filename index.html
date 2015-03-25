@@ -4,6 +4,7 @@
   <title>Markdown Editor</title>
   <script src="marked.js"></script>
   <script src="highlight.pack.js"></script>
+  <script src="emojify.js"></script>
   <script src="codemirror/lib/codemirror.js"></script>
   <script src="codemirror/xml/xml.js"></script>
   <script src="codemirror/markdown/markdown.js"></script>
@@ -61,6 +62,11 @@
     #menu li a {
       display: inline-block;
       padding: 15px;
+    }
+
+    .emoji {
+      width: 20px;
+      height: 20px;
     }
 
     @media screen and (max-width: 1024px) {
@@ -145,7 +151,7 @@ Look, a list!
  * bar
  * baz
 
-And here's some code!
+And here's some code! :+1:
 
 ```javascript
 $(function(){
@@ -183,6 +189,10 @@ the inspiration to this, and some handy implementation hints, came.
       html: 'xml'
     }
 
+    emojify.setConfig({
+      img_dir: 'emoji'
+    });
+
     marked.setOptions({
       highlight: function(code, lang){
         if(languageOverrides[lang]) lang = languageOverrides[lang];
@@ -204,7 +214,9 @@ the inspiration to this, and some handy implementation hints, came.
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
-      document.getElementById('out').innerHTML = marked(val);
+      var out = document.getElementById('out');
+      out.innerHTML = marked(val);
+      emojify.run(out);
     }
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
