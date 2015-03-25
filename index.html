@@ -34,7 +34,7 @@
       height: auto;
       overflow: auto;
       font-size: 12px;
-      box-shadow: -10px 2px 10px 10px rgba(0,0,0,0.2);
+      box-shadow: -10px 2px 6px 10px rgba(0,0,0,0.4);
     }
 
     .CodeMirror {
@@ -103,6 +103,7 @@
     .cm-header-5 { font-size: 1.2em; }
     .cm-header-6 { font-size: 1.15em; }
 
+    .cm-quote { color: #90a959; font-style: italic; }
 
     .view #in {
       display: none;
@@ -265,9 +266,10 @@ the inspiration to this, and some handy implementation hints, came.
       lineNumbers: false,
       matchBrackets: true,
       lineWrapping: true,
-      theme: 'base16-light',
-      onChange: update
+      theme: 'base16-light'
     });
+
+    editor.on('change', update);
 
     document.addEventListener('drop', function(e){
       e.preventDefault();
