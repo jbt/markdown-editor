@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Markdown Editor</title>
-  <script src="marked.js"></script>
+  <script src="markdown-it.js"></script>
+  <script src="markdown-it-footnote.js"></script>
   <script src="highlight.pack.js"></script>
   <script src="emojify.js"></script>
   <script src="codemirror/lib/codemirror.js"></script>
@@ -214,23 +215,27 @@ the inspiration to this, and some handy implementation hints, came.
     var languageOverrides = {
       js: 'javascript',
       html: 'xml'
-    }
+    };
 
     emojify.setConfig({
       img_dir: 'emoji'
     });
 
-    marked.setOptions({
+    var md = markdownit({
       highlight: function(code, lang){
         if(languageOverrides[lang]) lang = languageOverrides[lang];
-        return hljs.listLanguages().indexOf(lang) !== -1 ? hljs.highlight(lang, code).value : code;
+        if(lang && hljs.getLanguage(lang)){
+          try {
+            return hljs.highlight(lang, code).value;
+          }catch(e){}
+        }
+        return '';
       }
-    });
+    })
+      .use(markdownitFootnote);
 
     function update(e){
-      var val = e.getValue();
-
-      setOutput(val);
+      setOutput(e.getValue());
 
       clearTimeout(hashto);
       hashto = setTimeout(updateHash, 1000);
@@ -243,7 +248,7 @@ the inspiration to this, and some handy implementation hints, came.
 
       var out = document.getElementById('out');
       var old = out.cloneNode(true);
-      out.innerHTML = marked(val);
+      out.innerHTML = md.render(val);
       emojify.run(out);
 
       var allold = old.getElementsByTagName("*");
@@ -340,12 +345,18 @@ the inspiration to this, and some handy implementation hints, came.
         showMenu();
         return false;
       }
-    })
+    });
 
     var hashto;
 
     function updateHash(){
-      window.location.hash = btoa(RawDeflate.deflate(unescape(encodeURIComponent(editor.getValue()))))
+      window.location.hash = btoa( // base64 so url-safe
+        RawDeflate.deflate( // gzip
+          unescape(encodeURIComponent( // convert to utf8
+            editor.getValue()
+          ))
+        )
+      );
     }
 
     if(window.location.hash){
@@ -354,7 +365,15 @@ the inspiration to this, and some handy implementation hints, came.
         setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
         document.body.className = 'view';
       }else{
-        editor.setValue(decodeURIComponent(escape(RawDeflate.inflate(atob(h)))))
+        editor.setValue(
+          decodeURIComponent(escape(
+            RawDeflate.inflate(
+              atob(
+                h
+              )
+            )
+          ))
+        );
         update(editor);
         editor.focus();
       }
