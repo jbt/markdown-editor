@@ -131,7 +131,7 @@
       border: 1px solid #CCC;
     }
     #out pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px;}
-    pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; }
+    pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; padding: 0; }
     code { padding: 0 3px 0 3px; }
     sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
     sup { top: -0.5em; }
@@ -206,6 +206,7 @@ the inspiration to this, and some handy implementation hints, came.
     });
 
     var md = markdownit({
+      html: true,
       highlight: function(code, lang){
         if(languageOverrides[lang]) lang = languageOverrides[lang];
         if(lang && Prism.languages[lang]){
