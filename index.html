@@ -181,7 +181,7 @@ the inspiration to this, and some handy implementation hints, came.
 
  * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
  * [Prism](http://prismjs.com) for syntax highlighting
- * **mdEdit**, my own formatted markdown editor
+ * [mdEdit](https://github.com/jbt/mdEdit), my own formatted markdown editor
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
 </pre></div>
   <div id="out"></div>
@@ -198,7 +198,7 @@ the inspiration to this, and some handy implementation hints, came.
     // Because highlight.js is a bit awkward at times
     var languageOverrides = {
       js: 'javascript',
-      html: 'xml'
+      html: 'markup'
     };
 
     emojify.setConfig({
@@ -212,11 +212,6 @@ the inspiration to this, and some handy implementation hints, came.
         if(lang && Prism.languages[lang]){
           return Prism.highlight(code, Prism.languages[lang]);
         }
-        // if(lang && hljs.getLanguage(lang)){
-        //   try {
-        //     return hljs.highlight(lang, code).value;
-        //   }catch(e){}
-        // }
         return '';
       }
     })
