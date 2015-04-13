@@ -14,6 +14,7 @@
   <script src="codemirror/javascript/javascript.js"></script>
   <script src="codemirror/css/css.js"></script>
   <script src="codemirror/htmlmixed/htmlmixed.js"></script>
+  <script src="codemirror/lib/util/continuelist.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
   <link rel="stylesheet" href="base16-light.css">
@@ -272,7 +273,8 @@ the inspiration to this, and some handy implementation hints, came.
       lineNumbers: false,
       matchBrackets: true,
       lineWrapping: true,
-      theme: 'base16-light'
+      theme: 'base16-light',
+      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
     });
 
     editor.on('change', update);
