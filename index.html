@@ -70,23 +70,63 @@
     }
 
     #menu {
-      position: absolute;
-      background-color: #fff;
-      border-bottom: 1px solid #999;
-      margin: 0;
-      padding: 15px;
+      display: none;
+      position: fixed;
+      background-color: #111;
+      border-radius: 5px;
+      top: 50%;
+      left: 50%;
+      width: 250px;
+      height: 150px;
+      margin-top: -75px;
+      margin-left: -125px;
       z-index: 99;
-      list-style: none;
-      width: 100%;
+      text-align: center;
+      color: white;
     }
-    #menu li a {
+
+    #menu > span {
+      display: block;
+      font-size: 1.5em;
+      line-height: 1.3;
+      margin-top: 0.25em;
+    }
+
+    #menu > div {
       display: inline-block;
-      padding: 15px;
+      width: 100px;
+      text-align: center;
+      vertical-align: top;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    #menu > div:hover {
+      opacity: 1;
+    }
+
+    #menu svg {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto;
+      display: block;
+    }
+    #menu path {
+      fill: #fff;
+    }
+
+    #close-menu {
+      position: absolute;
+      top: 5px;
+      right: 9px;
+      color: white;
+      cursor: pointer;
     }
 
     .emoji {
-      width: 20px;
-      height: 20px;
+      width: 1em;
+      height: 1em;
+      vertical-align: baseline;
     }
 
     @media screen and (max-width: 1024px) {
@@ -202,11 +242,28 @@ the inspiration to this, and some handy implementation hints, came.
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
 </textarea></form></div>
   <div id="out"></div>
-  <ul id="menu">
-    <h3>Save as</h3>
-    <li><a id="saveas-markdown">Save as Markdown</a></li>
-    <li><a id="saveas-html">Save as HTML</a></li>
-  </ul>
+  <div id="menu">
+    <span>Save As</span>
+    <div id="saveas-markdown">
+      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+        <g transform="scale(0.0625)">
+          <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z" />
+        </g>
+      </svg>
+
+      <span>Markdown</span>
+    </div>
+    <div id="saveas-html">
+      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+        <g transform="scale(0.0625) translate(64,0)">
+          <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
+        </g>
+      </svg>
+
+      <span>HTML</span>
+    </div>
+    <a id="close-menu">&times;</a>
+  </div>
   <script type="text/javascript">
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
@@ -218,9 +275,7 @@ the inspiration to this, and some handy implementation hints, came.
       html: 'xml'
     };
 
-    emojify.setConfig({
-      img_dir: 'emoji'
-    });
+    emojify.setConfig({ img_dir: 'emoji' });
 
     var md = markdownit({
       highlight: function(code, lang){
@@ -234,6 +289,9 @@ the inspiration to this, and some handy implementation hints, came.
       }
     })
       .use(markdownitFootnote);
+
+
+    var hashto;
 
     function update(e){
       setOutput(e.getValue());
@@ -253,13 +311,11 @@ the inspiration to this, and some handy implementation hints, came.
       emojify.run(out);
 
       var allold = old.getElementsByTagName("*");
-      if (allold === undefined) {
-        return;
-      }
+      if (allold === undefined) return;
+
       var allnew = out.getElementsByTagName("*");
-      if (allnew === undefined) {
-        return;
-      }
+      if (allnew === undefined) return;
+
       for (var i = 0, max = Math.min(allold.length, allnew.length); i < max; i++) {
         if (!allold[i].isEqualNode(allnew[i])) {
           out.scrollTop = allnew[i].offsetTop;
@@ -279,44 +335,46 @@ the inspiration to this, and some handy implementation hints, came.
 
     editor.on('change', update);
 
+
+
+
+
     document.addEventListener('drop', function(e){
       e.preventDefault();
       e.stopPropagation();
 
-      var theFile = e.dataTransfer.files[0];
-      var theReader = new FileReader();
-      theReader.onload = function(e){
+      var reader = new FileReader();
+      reader.onload = function(e){
         editor.setValue(e.target.result);
       };
 
-      theReader.readAsText(theFile);
+      reader.readAsText(e.dataTransfer.files[0]);
     }, false);
 
+
+
+
+
     function saveAsMarkdown(){
-      var code = editor.getValue();
-      var blob = new Blob([code], { type: 'text/plain' });
-      saveBlob(blob, "untitled.md");
+      save(editor.getValue(), "untitled.md");
+    }
+
+    function saveAsHtml() {
+      save(document.getElementById('out').innerHTML, "untitled.html");
     }
 
     document.getElementById('saveas-markdown').addEventListener('click', function() {
       saveAsMarkdown();
       hideMenu();
-      return false;
     });
-
-    function saveAsHtml() {
-      var code = document.getElementById('out').innerHTML;
-      var blob = new Blob([code], { type: 'text/plain' });
-      saveBlob(blob, "untitled.html");
-    }
 
     document.getElementById('saveas-html').addEventListener('click', function() {
       saveAsHtml();
       hideMenu();
-      return false;
     });
 
-    function saveBlob(blob, name){
+    function save(code, name){
+      var blob = new Blob([code], { type: 'text/plain' });
       if(window.saveAs){
         window.saveAs(blob, name);
       }else if(navigator.saveBlob){
@@ -332,24 +390,46 @@ the inspiration to this, and some handy implementation hints, came.
       }
     }
 
+
+
+    var menuVisible = false;
+    var menu = document.getElementById('menu');
+
     function showMenu() {
-      document.getElementById('menu').style.display = 'block';
+      menuVisible = true;
+      menu.style.display = 'block';
     }
 
     function hideMenu() {
-      document.getElementById('menu').style.display = 'none';
+      menuVisible = false;
+      menu.style.display = 'none';
     }
-    hideMenu();
+
+    document.getElementById('close-menu').addEventListener('click', function(){
+      hideMenu();
+    });
+
+
+
 
     document.addEventListener('keydown', function(e){
       if(e.keyCode == 83 && (e.ctrlKey || e.metaKey)){
+        e.shiftKey ? showMenu() : saveAsMarkdown();
+
         e.preventDefault();
-        showMenu();
+        return false;
+      }
+
+      if(e.keyCode === 27 && menuVisible){
+        hideMenu();
+
+        e.preventDefault();
         return false;
       }
     });
 
-    var hashto;
+
+
 
     function updateHash(){
       window.location.hash = btoa( // base64 so url-safe
