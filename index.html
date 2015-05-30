@@ -306,9 +306,21 @@ the inspiration to this, and some handy implementation hints, came.
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
+      var env = {};
+      var tokens = md.parse(val, env);
+
+      tokens.forEach(function(t){
+        if(t.map){
+          t.attrPush([ 'source-lines', t.map[0] + ' ' + (t.map[1]-1) ]);
+        }
+      });
+
+      var html = md.renderer.render(tokens, md.options, env);
+
+
       var out = document.getElementById('out');
       var old = out.cloneNode(true);
-      out.innerHTML = md.render(val);
+      out.innerHTML = html;
       emojify.run(out);
 
       var allold = old.getElementsByTagName("*");
@@ -361,6 +373,8 @@ the inspiration to this, and some handy implementation hints, came.
     }
 
     function saveAsHtml() {
+      // TODO out.innerHTML includes source-lines and various emoji refs
+      // probably best to do a fresh md.render(editor.getValue())
       save(document.getElementById('out').innerHTML, "untitled.html");
     }
 
