@@ -17,15 +17,12 @@
   <script src="codemirror/lib/util/continuelist.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
+  <script src="scroll-sync.js"></script>
   <link rel="stylesheet" href="base16-light.css">
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
     body {margin: 0;}
-
-    .CodeMirror pre{
-      line-height: 16px;
-    }
 
     #in{
       position: fixed;
@@ -311,7 +308,7 @@ the inspiration to this, and some handy implementation hints, came.
 
       tokens.forEach(function(t){
         if(t.map){
-          t.attrPush([ 'source-lines', t.map[0] + ' ' + (t.map[1]-1) ]);
+          t.attrPush([ 'source-lines', t.map[0] + ' ' + t.map[1] ]);
         }
       });
 
@@ -478,6 +475,9 @@ the inspiration to this, and some handy implementation hints, came.
       update(editor);
       editor.focus();
     }
+
+
+    scrollSync(editor, document.getElementById('out'));
   </script>
 </body>
 </html>
