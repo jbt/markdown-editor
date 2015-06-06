@@ -159,9 +159,7 @@ function scrollSync(editor, output){
   }
 
   function scrollOutputToLineAtProgress(line, progress){
-    var st = output.scrollTop;
     var h = output.offsetHeight;
-    var sh = output.scrollHeight;
 
     h1.style.top = (h * progress) + 'px';
 
