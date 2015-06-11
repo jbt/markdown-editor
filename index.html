@@ -279,6 +279,7 @@ the inspiration to this, and some handy implementation hints, came.
     emojify.setConfig({ img_dir: 'emoji' });
 
     var md = markdownit({
+      html: true,
       highlight: function(code, lang){
         if(languageOverrides[lang]) lang = languageOverrides[lang];
         if(lang && hljs.getLanguage(lang)){
