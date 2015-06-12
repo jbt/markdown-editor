@@ -4,28 +4,15 @@
   <title>Markdown Editor</title>
   <script src="markdown-it.js"></script>
   <script src="markdown-it-footnote.js"></script>
-  <script src="highlight.pack.js"></script>
   <script src="emojify.js"></script>
-  <script src="codemirror/lib/codemirror.js"></script>
-  <script src="codemirror/overlay.js"></script>
-  <script src="codemirror/xml/xml.js"></script>
-  <script src="codemirror/markdown/markdown.js"></script>
-  <script src="codemirror/gfm/gfm.js"></script>
-  <script src="codemirror/javascript/javascript.js"></script>
-  <script src="codemirror/css/css.js"></script>
-  <script src="codemirror/htmlmixed/htmlmixed.js"></script>
-  <script src="codemirror/lib/util/continuelist.js"></script>
+  <script src="prism-all.js" data-manual="true"></script>
+  <script src="mdedit.min.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
-  <link rel="stylesheet" href="base16-light.css">
-  <link rel="stylesheet" href="codemirror/lib/codemirror.css">
-  <link rel="stylesheet" href="default.css">
+  <link rel="stylesheet" href="prism.css">
+  <link rel="stylesheet" href="mdedit.css">
   <style>
     body {margin: 0;}
-
-    .CodeMirror pre{
-      line-height: 16px;
-    }
 
     #in{
       position: fixed;
@@ -39,19 +26,15 @@
       box-shadow: -10px 2px 6px 10px rgba(0,0,0,0.4);
     }
 
-    .CodeMirror {
+    #code {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      width: auto;
-      height: auto;
-    }
-
-    .CodeMirror-scroll {
+      margin: 0;
       padding: 30px;
-      box-sizing: border-box;
+      font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 
     #out{
@@ -179,7 +162,7 @@
     blockquote{color:#666666;margin:0;padding-left: 3em;border-left: 0.5em #EEE solid;}
     hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
 
-    pre, code{
+    #out pre, code{
       color: #000;
       font-family:Consolas, "Liberation Mono", Menlo, Courier, monospace;
       font-size: 0.94em; /* 0.94 = 0.88 + (1.00 - 0.88) / 2 */
@@ -187,8 +170,8 @@
       background-color: #F8F8F8;
       border: 1px solid #CCC;
     }
-    pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px;}
-    pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; }
+    #out pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px;}
+    pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; padding: 0; }
     code { padding: 0 3px 0 3px; }
     sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
     sup { top: -0.5em; }
@@ -203,7 +186,7 @@
   </style>
 </head>
 <body>
-  <div id="in"><form><textarea id="code"># (GitHub-Flavored) Markdown Editor
+  <div id="in"><pre id="code"># (GitHub-Flavored) Markdown Editor
 
 Basic useful feature list:
 
@@ -238,10 +221,10 @@ the inspiration to this, and some handy implementation hints, came.
 ### Stuff used to make this:
 
  * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
- * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
- * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
+ * [Prism](http://prismjs.com) for syntax highlighting
+ * [mdEdit](https://github.com/jbt/mdEdit), my own formatted markdown editor
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
-</textarea></form></div>
+</pre></div>
   <div id="out"></div>
   <div id="menu">
     <span>Save As</span>
@@ -273,7 +256,7 @@ the inspiration to this, and some handy implementation hints, came.
     // Because highlight.js is a bit awkward at times
     var languageOverrides = {
       js: 'javascript',
-      html: 'xml'
+      html: 'markup'
     };
 
     emojify.setConfig({ img_dir: 'emoji' });
@@ -282,10 +265,8 @@ the inspiration to this, and some handy implementation hints, came.
       html: true,
       highlight: function(code, lang){
         if(languageOverrides[lang]) lang = languageOverrides[lang];
-        if(lang && hljs.getLanguage(lang)){
-          try {
-            return hljs.highlight(lang, code).value;
-          }catch(e){}
+        if(lang && Prism.languages[lang]){
+          return Prism.highlight(code, Prism.languages[lang]);
         }
         return '';
       }
@@ -296,7 +277,7 @@ the inspiration to this, and some handy implementation hints, came.
     var hashto;
 
     function update(e){
-      setOutput(e.getValue());
+      setOutput(e);
 
       clearTimeout(hashto);
       hashto = setTimeout(updateHash, 1000);
@@ -326,19 +307,10 @@ the inspiration to this, and some handy implementation hints, came.
       }
     }
 
-    var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-      mode: 'gfm',
-      lineNumbers: false,
-      matchBrackets: true,
-      lineWrapping: true,
-      theme: 'base16-light',
-      extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
+
+    var editor = mdEdit(document.getElementById('code'), {
+      change: update
     });
-
-    editor.on('change', update);
-
-
-
 
 
     document.addEventListener('drop', function(e){
@@ -458,12 +430,12 @@ the inspiration to this, and some handy implementation hints, came.
             )
           ))
         );
-        update(editor);
-        editor.focus();
+        update(editor.getValue());
+        // editor.focus();
       }
     }else{
-      update(editor);
-      editor.focus();
+      update(editor.getValue());
+      // editor.focus();
     }
   </script>
 </body>

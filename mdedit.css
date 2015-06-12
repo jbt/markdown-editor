@@ -1,0 +1,57 @@
+
+.mdedit {
+  font-size: 12px;
+  line-height: 1.3;
+  color: black;
+	/*text-shadow: 0 1px white;*/
+	font-family: Consolas, Monaco, 'Andale Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	/*************/ white-space: pre-wrap;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	padding: 1em;
+	overflow: auto;
+	background: #f5f2f0;
+}
+
+.mdedit:focus {
+  outline: none;
+}
+
+.mdedit::-moz-selection, .mdedit ::-moz-selection {
+	background: #b3d4fc;
+}
+
+.mdedit::selection, .mdedit ::selection {
+	background: #b3d4fc;
+}
+
+.mdedit .heading { font-weight: bold; }
+.mdedit .heading .heading-hash { font-weight: normal; }
+.mdedit .heading .heading-setext-line { font-weight: normal; }
+.mdedit .heading.heading-1 { font-size: 2em; }
+.mdedit .heading.heading-2 { font-size: 1.75em; }
+.mdedit .heading.heading-3 { font-size: 1.5em; }
+.mdedit .heading.heading-4 { font-size: 1.3em; }
+.mdedit .heading.heading-5 { font-size: 1.2em; }
+.mdedit .heading.heading-6 { font-size: 1.15em; }
+.mdedit .marker { color: rgba(120,120,120,0.5); }
+.mdedit .strong { font-weight: bold; }
+.mdedit .em { font-style: italic; }
+.mdedit .strike-inner { text-decoration: line-through }
+.mdedit .code { background: rgba(120,120,120,0.1); padding: 0.15em 0; }
+.mdedit .href, .mdedit .braced-href .braced-href-inner { color: rgba(120,120,120,0.8); text-decoration: underline; }
+.mdedit .blockquote-content, .mdedit .code-block.untagged .code-inner, .mdedit .code-block .code-language, .mdedit .code-block.indented { color: #555; }
+.mdedit .link-text-inner { text-decoration: underline; }
