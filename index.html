@@ -17,15 +17,12 @@
   <script src="codemirror/lib/util/continuelist.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
+  <script src="scroll-sync.js"></script>
   <link rel="stylesheet" href="base16-light.css">
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
   <style>
     body {margin: 0;}
-
-    .CodeMirror pre{
-      line-height: 16px;
-    }
 
     #in{
       position: fixed;
@@ -307,9 +304,21 @@ the inspiration to this, and some handy implementation hints, came.
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
+      var env = {};
+      var tokens = md.parse(val, env);
+
+      tokens.forEach(function(t){
+        if(t.map){
+          t.attrPush([ 'source-lines', t.map[0] + ' ' + t.map[1] ]);
+        }
+      });
+
+      var html = md.renderer.render(tokens, md.options, env);
+
+
       var out = document.getElementById('out');
       var old = out.cloneNode(true);
-      out.innerHTML = md.render(val);
+      out.innerHTML = html;
       emojify.run(out);
 
       var allold = old.getElementsByTagName("*");
@@ -362,6 +371,8 @@ the inspiration to this, and some handy implementation hints, came.
     }
 
     function saveAsHtml() {
+      // TODO out.innerHTML includes source-lines and various emoji refs
+      // probably best to do a fresh md.render(editor.getValue())
       save(document.getElementById('out').innerHTML, "untitled.html");
     }
 
@@ -465,6 +476,9 @@ the inspiration to this, and some handy implementation hints, came.
       update(editor);
       editor.focus();
     }
+
+
+    scrollSync(editor, document.getElementById('out'));
   </script>
 </body>
 </html>
