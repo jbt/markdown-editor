@@ -303,7 +303,7 @@ the inspiration to this, and some handy implementation hints, came.
     }
 
     function setOutput(val){
-      val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b){
+      val = val.replace(/```latex((.*?\n)*?.*?)```/ig, function(a, b){
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
       });
 
