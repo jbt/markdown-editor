@@ -17,6 +17,7 @@
   <script src="codemirror/lib/util/continuelist.js"></script>
   <script src="rawinflate.js"></script>
   <script src="rawdeflate.js"></script>
+  <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
   <link rel="stylesheet" href="base16-light.css">
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
@@ -304,7 +305,11 @@ the inspiration to this, and some handy implementation hints, came.
 
     function setOutput(val){
       val = val.replace(/```latex((.*?\n)*?.*?)```/ig, function(a, b){
-        return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
+        return '<div lang="latex">' + b + '</div>';
+      });
+
+      val = val.replace(/\[latex\]((.*?\n)*?.*?)\[\\latex\]/ig, function(a, b){
+        return '<span lang="latex">' + b + '</span>';
       });
 
       var out = document.getElementById('out');
