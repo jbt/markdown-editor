@@ -200,6 +200,19 @@
     table { border-collapse: collapse; border-spacing: 0; }
     td, th { vertical-align: top; padding: 4px 10px; border: 1px solid #bbb; }
     tr:nth-child(even) td, tr:nth-child(even) th { background: #eee; }
+
+    @media print {
+      #in {
+        display: none;  
+        width: 0;
+      }
+
+      #out {
+        position: static;
+        left: 0;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
