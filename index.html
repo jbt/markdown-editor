@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="base16-light.css">
   <link rel="stylesheet" href="codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="default.css">
+  <link rel="stylesheet" href="github-markdown.css">
   <style>
     body {margin: 0;}
 
@@ -63,10 +64,6 @@
       overflow: auto;
       padding: 10px;
       padding-left: 20px;
-      color: #444;
-      font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
-      font-size: 16px;
-      line-height: 1.5em
     }
 
     #menu {
@@ -156,13 +153,6 @@
       padding-left: 10px;
     }
 
-    a{ color: #0645ad; text-decoration:none;}
-    a:visited{ color: #0b0080; }
-    a:hover{ color: #06e; }
-    a:active{ color:#faa700; }
-    a:focus{ outline: thin dotted; }
-    a:hover, a:active{ outline: 0; }
-
     p{margin:1em 0;}
 
     img{max-width:100%;}
@@ -179,14 +169,6 @@
     blockquote{color:#666666;margin:0;padding-left: 3em;border-left: 0.5em #EEE solid;}
     hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
 
-    pre, code{
-      color: #000;
-      font-family:Consolas, "Liberation Mono", Menlo, Courier, monospace;
-      font-size: 0.94em; /* 0.94 = 0.88 + (1.00 - 0.88) / 2 */
-      border-radius:3px;
-      background-color: #F8F8F8;
-      border: 1px solid #CCC;
-    }
     pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px;}
     pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; }
     code { padding: 0 3px 0 3px; }
@@ -242,7 +224,7 @@ the inspiration to this, and some handy implementation hints, came.
  * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
 </textarea></form></div>
-  <div id="out"></div>
+  <div id="out" class="markdown-body"></div>
   <div id="menu">
     <span>Save As</span>
     <div id="saveas-markdown">
