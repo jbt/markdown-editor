@@ -34,8 +34,8 @@ var hashto;
 function update(e) {
     setOutput(e.getValue());
 
-    clearTimeout(hashto);
-    hashto = setTimeout(updateHash, 1000);
+    //clearTimeout(hashto);
+    //hashto = setTimeout(updateHash, 1000);
 }
 
 function setOutput(val) {
