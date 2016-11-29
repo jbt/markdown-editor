@@ -1,0 +1,26 @@
+.codebox-tabgroup {
+  border: 0;
+  margin: 0;
+  background-color: #F8F8F8;
+}
+
+.codebox-tab {
+  font-size: 0.8em;
+  border: 0;
+  margin: 0;
+  background-color: #F8F8F8;
+}
+
+.nav-tabs>li>a {
+  border-radius: 4px 4px 4px 4px
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  background-color: #ccc;
+  border-bottom-color: #ccc;
+}
+
+.codebox-code {
+  border: 0;
+  margin: 0;
+}
