@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Markdown Editor</title>
-  <script src="codebox.js"></script>
-  <script src="markdown-it.js"></script>
-  <script src="markdown-it-footnote.js"></script>
-  <script src="highlight.pack.js"></script>
-  <script src="emojify.js"></script>
-  <script src="codemirror/lib/codemirror.js"></script>
-  <script src="codemirror/overlay.js"></script>
-  <script src="codemirror/xml/xml.js"></script>
-  <script src="codemirror/markdown/markdown.js"></script>
-  <script src="codemirror/gfm/gfm.js"></script>
-  <script src="codemirror/javascript/javascript.js"></script>
-  <script src="codemirror/css/css.js"></script>
-  <script src="codemirror/htmlmixed/htmlmixed.js"></script>
-  <script src="codemirror/lib/util/continuelist.js"></script>
-  <script src="rawinflate.js"></script>
-  <script src="rawdeflate.js"></script>
-  <link rel="stylesheet" href="base16-light.css">
-  <link rel="stylesheet" href="codemirror/lib/codemirror.css">
-  <link rel="stylesheet" href="default.css">
+    <title>Markdown Editor</title>
+    <script src="markdown-it.js"></script>
+    <script src="markdown-it-footnote.js"></script>
+    <script src="highlight.pack.js"></script>
+    <script src="emojify.js"></script>
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/overlay.js"></script>
+    <script src="codemirror/xml/xml.js"></script>
+    <script src="codemirror/markdown/markdown.js"></script>
+    <script src="codemirror/gfm/gfm.js"></script>
+    <script src="codemirror/javascript/javascript.js"></script>
+    <script src="codemirror/css/css.js"></script>
+    <script src="codemirror/htmlmixed/htmlmixed.js"></script>
+    <script src="codemirror/lib/util/continuelist.js"></script>
+    <script src="rawinflate.js"></script>
+    <script src="rawdeflate.js"></script>
+    <link rel="stylesheet" href="base16-light.css">
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="default.css">
 
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-  <!-- Bootstrap -->
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="codebox.css">
-  <link rel="stylesheet" href="index.css">
+    <!-- Mathjax -->
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+    <script src="mathjax.js"></script>
+
+    <!-- Codebox -->
+    <link rel="stylesheet" href="codebox.css">
+    <script src="codebox.js"></script>
+
+    <link rel="stylesheet" href="index.css">
 </head>
-<body>
-  <div id="in"><form><textarea id="code"># (GitHub-Flavored) Markdown Editor
 
+<body>
+
+    <div id="in">
+        <form><textarea id="code">
+# (GitHub-Flavored) Markdown Editor
+
+### Markdown
 Basic useful feature list:
 
  * Ctrl+S / Cmd+S to save the file
@@ -45,7 +57,7 @@ Basic useful feature list:
  * File contents are saved in the URL so you can share files
 
 
-I'm no good at writing sample / filler text, so go write something yourself.
+I'm no good at writing sample / filler text, so go write something yourself. Here is something **bolded**
 
 Look, a list!
 
@@ -53,9 +65,25 @@ Look, a list!
  * bar
  * baz
 
-And here's some code! :+1:
+:+1:
 
-<codeboxstart>
+### Code
+```cpp
+#include <cstdio>
+
+using namespace std;
+
+int main() {
+  printf("Hello world!");
+}
+```
+
+### Mathjax
+When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+### Codebox
+<codebox>
 ```cpp
 #include <cstdio>
 
@@ -72,44 +100,40 @@ class Main {
     }
 }
 ```
-<codeboxend>
+</codebox>
 
-This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
-
-
-Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
-the inspiration to this, and some handy implementation hints, came.
-
-### Stuff used to make this:
-
+### Stuff used to make this
  * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
  * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
  * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
  * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
-</textarea></form></div>
-  <div id="out"></div>
-  <div id="menu">
-    <span>Save As</span>
-    <div id="saveas-markdown">
-      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+ * [mathjax](https://www.mathjax.org/) for Math parsing
+</textarea></form>
+    </div>
+    <div id="out"></div>
+    <div id="menu">
+        <span>Save As</span>
+        <div id="saveas-markdown">
+            <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
         <g transform="scale(0.0625)">
           <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z" />
         </g>
       </svg>
 
-      <span>Markdown</span>
-    </div>
-    <div id="saveas-html">
-      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+            <span>Markdown</span>
+        </div>
+        <div id="saveas-html">
+            <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
         <g transform="scale(0.0625) translate(64,0)">
           <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
         </g>
       </svg>
 
-      <span>HTML</span>
+            <span>HTML</span>
+        </div>
+        <a id="close-menu">&times;</a>
     </div>
-    <a id="close-menu">&times;</a>
-  </div>
-  <script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
+
 </html>

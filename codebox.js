@@ -22,9 +22,9 @@ function prettifyLanguage(language) {
 }
 
 function renderCodebox(content) {
-  content = replaceAll(content, "<p><codeboxstart></p>",
+  content = replaceAll(content, "<p><codebox></p>",
     "<div class='codebox'><div class='tab-content'>");
-  content = replaceAll(content, "<p><codeboxend></p>", "</div></div>");
+  content = replaceAll(content, "<p></codebox></p>", "</div></div>");
   var dummy = $('<div></div>');
   dummy.html(content);
   $(".codebox", dummy).each(function(index) {
@@ -39,7 +39,7 @@ function renderCodebox(content) {
           "' data-toggle='tab'>" + prettifyLanguage(language) + "</a></li>";
         $(this).addClass("tab-pane codebox-code");
         if (i == 0) $(this).addClass("active");
-        $(this).attr("id", locator);  
+        $(this).attr("id", locator);
       });
       prepend_toggle += "</ul>";
       $(this).prepend(prepend_toggle);
