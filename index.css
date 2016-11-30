@@ -238,3 +238,16 @@
 .hidden {
     display: none !important;
 }
+@media print{
+    #in{
+     display:none !important;
+   }
+   #out{
+        left:0 !important; 
+        top:0 !important; 
+        position:static !important;
+   }
+   #navbar{
+       display:none !important;
+   }
+}
