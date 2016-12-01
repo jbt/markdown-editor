@@ -62,8 +62,13 @@ function setOutput(val) {
     }
 }
 
+CodeMirrorSpellChecker({
+    codeMirrorInstance: CodeMirror,
+});
+
 var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-    mode: 'gfm',
+    mode: "spell-checker",
+    backdrop: "gfm",
     lineNumbers: false,
     matchBrackets: true,
     lineWrapping: true,
