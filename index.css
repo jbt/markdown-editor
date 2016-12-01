@@ -40,6 +40,8 @@
       overflow: auto;
       padding: 10px;
       padding-left: 20px;
+      background-color: rgb(245, 245, 245);
+      border-left: 2px solid #444;
     }
 
     #menu {
@@ -238,6 +240,19 @@
 .hidden {
     display: none !important;
 }
+
+.nightmode #in{
+  filter: invert(100%);
+}
+
+.nightmode #out{
+  filter: invert(100%);
+}
+
+.nightmode #navbar{
+  filter: invert(0%);
+}
+
 @media print{
     #in{
      display:none !important;
@@ -246,6 +261,8 @@
         left:0 !important; 
         top:0 !important; 
         position:static !important;
+        border-width: 0px !important;
+        filter: invert(0%) !important;
    }
    #navbar{
        display:none !important;

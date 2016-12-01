@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="github-markdown.css">
 </head>
-<body>
+<body id="toplevel">
     
    
   <div id="in"><form><textarea id="code">
@@ -54,10 +54,11 @@
   </div>
   <div id="navbar">
     <div id="navcontent">
-        <a href = "https://github.com/jbt/markdown-editor" tooltip = "Check out the code on Github!"><p id="title" class="left"># Markdown Editor</p></a>
+        <a href = "https://github.com/aero31aero/markdown-editor" tooltip = "Check out the code on Github!"><p id="title" class="left"># Markdown Editor</p></a>
         <p id="openbutton" class="navbutton left hidden">Open</p>
         <p id="savebutton" class="navbutton left" onclick="showMenu()">Save</p>
         <p id="sharebutton" class="navbutton left" onclick="updateHash()">Generate Shareable URL</p>
+        <p id="nightbutton" class="navbutton left" onclick="toggleNightMode(this)">Night Mode</p>
         <p id="newbutton" class="navbutton left hidden" onclick="clearEditor()">Clear</p>
         <p id="sharebutton" class="navbutton left selected hidden">Share</p>
         <p id="viewbutton" class="navbutton right" onclick="toggleEditorView(this)">Show Editor</p>

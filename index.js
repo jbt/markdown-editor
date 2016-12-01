@@ -214,6 +214,11 @@ function toggleEditorView(button) {
     manageSpiltView({matches: true});
 }
 
+function toggleNightMode(button) {
+    button.classList.toggle('selected');
+    document.getElementById('toplevel').classList.toggle('nightmode');
+}
+
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip
