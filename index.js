@@ -16,7 +16,7 @@ emojify.setConfig({
 
 var md = markdownit({
         html: true,
-        highlight: function (code, lang) {
+        highlight: function(code, lang) {
             if (languageOverrides[lang]) lang = languageOverrides[lang];
             if (lang && hljs.getLanguage(lang)) {
                 try {
@@ -28,7 +28,6 @@ var md = markdownit({
     })
     .use(markdownitFootnote);
 
-
 var hashto;
 
 function update(e) {
@@ -39,7 +38,7 @@ function update(e) {
 }
 
 function setOutput(val) {
-    val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function (a, b) {
+    val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b) {
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
     });
 
@@ -80,25 +79,17 @@ var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
 
 editor.on('change', update);
 
-
-
-
-
-document.addEventListener('drop', function (e) {
+document.addEventListener('drop', function(e) {
     e.preventDefault();
     e.stopPropagation();
 
     var reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         editor.setValue(e.target.result);
     };
 
     reader.readAsText(e.dataTransfer.files[0]);
 }, false);
-
-
-
-
 
 function saveAsMarkdown() {
     save(editor.getValue(), "untitled.md");
@@ -108,12 +99,12 @@ function saveAsHtml() {
     save(document.getElementById('out').innerHTML, "untitled.html");
 }
 
-document.getElementById('saveas-markdown').addEventListener('click', function () {
+document.getElementById('saveas-markdown').addEventListener('click', function() {
     saveAsMarkdown();
     hideMenu();
 });
 
-document.getElementById('saveas-html').addEventListener('click', function () {
+document.getElementById('saveas-html').addEventListener('click', function() {
     saveAsHtml();
     hideMenu();
 });
@@ -137,8 +128,6 @@ function save(code, name) {
     }
 }
 
-
-
 var menuVisible = false;
 var menu = document.getElementById('menu');
 
@@ -152,14 +141,11 @@ function hideMenu() {
     menu.style.display = 'none';
 }
 
-document.getElementById('close-menu').addEventListener('click', function () {
+document.getElementById('close-menu').addEventListener('click', function() {
     hideMenu();
 });
 
-
-
-
-document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', function(e) {
     if (e.keyCode == 83 && (e.ctrlKey || e.metaKey)) {
         e.shiftKey ? showMenu() : saveAsMarkdown();
 
@@ -191,13 +177,12 @@ function manageSpiltView(mq) {
     var isMDViewOn = document.getElementById('viewbutton').classList.contains('selected');
     if (mq.matches) {
         //HALF VIEW
-        if(isMDViewOn){
+        if (isMDViewOn) {
             //SHOW EDITOR
             inview.style.display = 'block';
             inview.style.width = '100%';
             outview.style.display = 'none';
-        }
-        else{
+        } else {
             //SHOW HTML
             inview.style.display = 'none';
             outview.style.display = 'block';
@@ -216,7 +201,7 @@ function manageSpiltView(mq) {
 
 function toggleEditorView(button) {
     button.classList.toggle('selected');
-    manageSpiltView({matches: true});
+    manageSpiltView({ matches: true });
 }
 
 function toggleNightMode(button) {
@@ -234,27 +219,31 @@ function updateHash() {
     );
 }
 
-if (window.location.hash) {
-    var h = window.location.hash.replace(/^#/, '');
-    if (h.slice(0, 5) == 'view:') {
-        setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
-        document.body.className = 'view';
-    } else {
-        editor.setValue(
-            decodeURIComponent(escape(
-                RawDeflate.inflate(
-                    atob(
-                        h
+function start() {
+    if (window.location.hash) {
+        var h = window.location.hash.replace(/^#/, '');
+        if (h.slice(0, 5) == 'view:') {
+            setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
+            document.body.className = 'view';
+        } else {
+            editor.setValue(
+                decodeURIComponent(escape(
+                    RawDeflate.inflate(
+                        atob(
+                            h
+                        )
                     )
-                )
-            ))
-        );
+                ))
+            );
+            update(editor);
+            editor.focus();
+        }
+    } else {
         update(editor);
         editor.focus();
     }
-} else {
-    update(editor);
-    editor.focus();
+
+    initEditor();
 }
 
-initEditor();
+start();
