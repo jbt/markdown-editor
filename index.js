@@ -34,6 +34,20 @@ var hashto;
 function update(e) {
     setOutput(e.getValue());
 
+    //If a title is added to the document it will be the new document.title, otherwise use default
+    var headerElements = document.querySelectorAll('h1');
+    if (headerElements.length > 0) {
+      title = headerElements[0].textContent;
+    } else {
+      title = 'Markdown Editor'
+    }
+    
+    //To avoid to much title changing we check if is not the same as before
+    oldTitle = document.title;
+    if(oldTitle != title){
+        oldTitle = title;
+        document.title = title;
+    }
     //clearTimeout(hashto);
     //hashto = setTimeout(updateHash, 1000);
 }
@@ -94,13 +108,14 @@ document.addEventListener('drop', function (e) {
 
 
 
-
+//Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsMarkdown() {
-    save(editor.getValue(), "untitled.md");
+    save(editor.getValue(), encodeURIComponent(document.title).replace(/%20/g,'')+".md");
 }
 
+//Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsHtml() {
-    save(document.getElementById('out').innerHTML, "untitled.html");
+    save(document.getElementById('out').innerHTML, encodeURIComponent(document.title).replace(/%20/g,'')+".html");
 }
 
 document.getElementById('saveas-markdown').addEventListener('click', function () {
