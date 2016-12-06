@@ -35,7 +35,7 @@ function update(e) {
 
     //If a title is added to the document it will be the new document.title, otherwise use default
     var headerElements = document.querySelectorAll('h1');
-    if (headerElements.length > 0) {
+    if (headerElements.length > 0 && headerElements[0].textContent.length > 0) {
       title = headerElements[0].textContent;
     } else {
       title = 'Markdown Editor'
