@@ -242,6 +242,7 @@
     margin-left: -25%;
     padding-left: 0%;
     left:0;
+    border-left: 0 !important;
  }
 
 @media screen and (max-width: 1024px) {
