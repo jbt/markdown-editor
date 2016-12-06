@@ -16,7 +16,7 @@ emojify.setConfig({
 
 var md = markdownit({
         html: true,
-        highlight: function (code, lang) {
+        highlight: function(code, lang) {
             if (languageOverrides[lang]) lang = languageOverrides[lang];
             if (lang && hljs.getLanguage(lang)) {
                 try {
@@ -28,7 +28,6 @@ var md = markdownit({
     })
     .use(markdownitFootnote);
 
-
 var hashto;
 
 function update(e) {
@@ -36,7 +35,7 @@ function update(e) {
 
     //If a title is added to the document it will be the new document.title, otherwise use default
     var headerElements = document.querySelectorAll('h1');
-    if (headerElements.length > 0) {
+    if (headerElements.length > 0 && headerElements[0].textContent.length > 0) {
       title = headerElements[0].textContent;
     } else {
       title = 'Markdown Editor'
@@ -53,7 +52,7 @@ function update(e) {
 }
 
 function setOutput(val) {
-    val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function (a, b) {
+    val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b) {
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
     });
 
@@ -76,8 +75,13 @@ function setOutput(val) {
     }
 }
 
+CodeMirrorSpellChecker({
+    codeMirrorInstance: CodeMirror,
+});
+
 var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-    mode: 'gfm',
+    mode: "spell-checker",
+    backdrop: "gfm",
     lineNumbers: false,
     matchBrackets: true,
     lineWrapping: true,
@@ -89,24 +93,17 @@ var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
 
 editor.on('change', update);
 
-
-
-
-
-document.addEventListener('drop', function (e) {
+document.addEventListener('drop', function(e) {
     e.preventDefault();
     e.stopPropagation();
 
     var reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         editor.setValue(e.target.result);
     };
 
     reader.readAsText(e.dataTransfer.files[0]);
 }, false);
-
-
-
 
 //Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsMarkdown() {
@@ -118,12 +115,12 @@ function saveAsHtml() {
     save(document.getElementById('out').innerHTML, encodeURIComponent(document.title).replace(/%20/g,'')+".html");
 }
 
-document.getElementById('saveas-markdown').addEventListener('click', function () {
+document.getElementById('saveas-markdown').addEventListener('click', function() {
     saveAsMarkdown();
     hideMenu();
 });
 
-document.getElementById('saveas-html').addEventListener('click', function () {
+document.getElementById('saveas-html').addEventListener('click', function() {
     saveAsHtml();
     hideMenu();
 });
@@ -147,8 +144,6 @@ function save(code, name) {
     }
 }
 
-
-
 var menuVisible = false;
 var menu = document.getElementById('menu');
 
@@ -162,14 +157,11 @@ function hideMenu() {
     menu.style.display = 'none';
 }
 
-document.getElementById('close-menu').addEventListener('click', function () {
+document.getElementById('close-menu').addEventListener('click', function() {
     hideMenu();
 });
 
-
-
-
-document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', function(e) {
     if (e.keyCode == 83 && (e.ctrlKey || e.metaKey)) {
         e.shiftKey ? showMenu() : saveAsMarkdown();
 
@@ -195,19 +187,18 @@ function initEditor() {
 }
 
 function manageSpiltView(mq) {
-    console.log(mq);
+    //console.log(mq);
     var inview = document.getElementById('in');
     var outview = document.getElementById('out');
     var isMDViewOn = document.getElementById('viewbutton').classList.contains('selected');
     if (mq.matches) {
         //HALF VIEW
-        if(isMDViewOn){
+        if (isMDViewOn) {
             //SHOW EDITOR
             inview.style.display = 'block';
             inview.style.width = '100%';
             outview.style.display = 'none';
-        }
-        else{
+        } else {
             //SHOW HTML
             inview.style.display = 'none';
             outview.style.display = 'block';
@@ -226,7 +217,18 @@ function manageSpiltView(mq) {
 
 function toggleEditorView(button) {
     button.classList.toggle('selected');
-    manageSpiltView({matches: true});
+    manageSpiltView({ matches: true });
+}
+
+function toggleNightMode(button) {
+    button.classList.toggle('selected');
+    document.getElementById('toplevel').classList.toggle('nightmode');
+}
+
+function toggleReadMode(button) {
+    button.classList.toggle('selected');
+    document.getElementById('out').classList.toggle('focused');
+    document.getElementById('in').classList.toggle('hidden');
 }
 
 function updateHash() {
@@ -239,27 +241,31 @@ function updateHash() {
     );
 }
 
-if (window.location.hash) {
-    var h = window.location.hash.replace(/^#/, '');
-    if (h.slice(0, 5) == 'view:') {
-        setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
-        document.body.className = 'view';
-    } else {
-        editor.setValue(
-            decodeURIComponent(escape(
-                RawDeflate.inflate(
-                    atob(
-                        h
+function start() {
+    if (window.location.hash) {
+        var h = window.location.hash.replace(/^#/, '');
+        if (h.slice(0, 5) == 'view:') {
+            setOutput(decodeURIComponent(escape(RawDeflate.inflate(atob(h.slice(5))))));
+            document.body.className = 'view';
+        } else {
+            editor.setValue(
+                decodeURIComponent(escape(
+                    RawDeflate.inflate(
+                        atob(
+                            h
+                        )
                     )
-                )
-            ))
-        );
+                ))
+            );
+            update(editor);
+            editor.focus();
+        }
+    } else {
         update(editor);
         editor.focus();
     }
-} else {
-    update(editor);
-    editor.focus();
+
+    initEditor();
 }
 
-initEditor();
+start();

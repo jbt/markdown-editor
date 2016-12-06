@@ -1,68 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Markdown Editor</title>
-  <script src="markdown-it.js"></script>
-  <script src="markdown-it-footnote.js"></script>
-  <script src="highlight.pack.js"></script>
-  <script src="emojify.js"></script>
-  <script src="codemirror/lib/codemirror.js"></script>
-  <script src="codemirror/overlay.js"></script>
-  <script src="codemirror/xml/xml.js"></script>
-  <script src="codemirror/markdown/markdown.js"></script>
-  <script src="codemirror/gfm/gfm.js"></script>
-  <script src="codemirror/javascript/javascript.js"></script>
-  <script src="codemirror/css/css.js"></script>
-  <script src="codemirror/htmlmixed/htmlmixed.js"></script>
-  <script src="codemirror/lib/util/continuelist.js"></script>
-  <script src="rawinflate.js"></script>
-  <script src="rawdeflate.js"></script>
-  <link rel="stylesheet" href="base16-light.css">
-  <link rel="stylesheet" href="codemirror/lib/codemirror.css">
-  <link rel="stylesheet" href="default.css">
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="github-markdown.css">
-</head>
-<body>
-    
-   
-  <div id="in"><form><textarea id="code">
-  # Start Typing Here
-</textarea></form></div>
-  <div id="out" class="markdown-body"></div>
-  <div id="menu">
-    <span>Save As</span>
-    <div id="saveas-markdown">
-      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-        <g transform="scale(0.0625)">
-          <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z" />
-        </g>
-      </svg>
-
-      <span>Markdown</span>
+  <head>
+    <title>Markdown Editor</title>
+    <link rel="stylesheet" href="lib/base16-light.css">
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="lib/default.css">
+    <link rel="stylesheet" href="lib/github-markdown.css">
+    <link rel="stylesheet" href="lib/spell-checker.min.css">
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body id="toplevel">
+    <div id="in"><form><textarea id="code"># New Document</textarea></form></div>
+    <div id="out" class="markdown-body"></div>
+    <div id="menu">
+      <span>Save As</span>
+      <div id="saveas-markdown">
+        <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(0.0625)">
+            <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z" />
+          </g>
+        </svg>
+        <span>Markdown</span>
+      </div>
+      <div id="saveas-html">
+        <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
+          <g transform="scale(0.0625) translate(64,0)">
+            <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
+          </g>
+        </svg>
+        <span>HTML</span>
+      </div>
+      <a id="close-menu">&times;</a>
     </div>
-    <div id="saveas-html">
-      <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-        <g transform="scale(0.0625) translate(64,0)">
-          <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
-        </g>
-      </svg>
-
-      <span>HTML</span>
-    </div>
-    <a id="close-menu">&times;</a>
-  </div>
-  <div id="navbar">
-    <div id="navcontent">
-        <a href = "https://github.com/jbt/markdown-editor" tooltip = "Check out the code on Github!"><p id="title" class="left"># Markdown Editor</p></a>
+    <div id="navbar">
+      <div id="navcontent">
+        <a href = "https://github.com/aero31aero/markdown-editor" tooltip = "Check out the code on Github!"><p id="title" class="left"># Markdown Editor</p></a>
         <p id="openbutton" class="navbutton left hidden">Open</p>
         <p id="savebutton" class="navbutton left" onclick="showMenu()">Save</p>
         <p id="sharebutton" class="navbutton left" onclick="updateHash()">Generate Shareable URL</p>
+        <p id="nightbutton" class="navbutton left" onclick="toggleNightMode(this)">Night Mode</p>
+        <p id="readbutton" class="navbutton left" onclick="toggleReadMode(this)">Reading Mode</p>
         <p id="newbutton" class="navbutton left hidden" onclick="clearEditor()">Clear</p>
         <p id="sharebutton" class="navbutton left selected hidden">Share</p>
         <p id="viewbutton" class="navbutton right" onclick="toggleEditorView(this)">Show Editor</p>
+      </div>
     </div>
-  </div> 
-  <script src = "index.js" type="text/javascript"></script>
-</body>
+    <script src="lib/markdown-it.js"></script>
+    <script src="lib/markdown-it-footnote.js"></script>
+    <script src="lib/highlight.pack.js"></script>
+    <script src="lib/emojify.js"></script>
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/overlay.js"></script>
+    <script src="codemirror/xml/xml.js"></script>
+    <script src="codemirror/markdown/markdown.js"></script>
+    <script src="codemirror/gfm/gfm.js"></script>
+    <script src="codemirror/javascript/javascript.js"></script>
+    <script src="codemirror/css/css.js"></script>
+    <script src="codemirror/htmlmixed/htmlmixed.js"></script>
+    <script src="codemirror/lib/util/continuelist.js"></script>
+    <script src="lib/spell-checker.min.js"></script>
+    <script src="lib/rawinflate.js"></script>
+    <script src="lib/rawdeflate.js"></script>
+    <script src="index.js"></script>
+  </body>
 </html>
