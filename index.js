@@ -187,7 +187,7 @@ function initEditor() {
 }
 
 function manageSpiltView(mq) {
-    console.log(mq);
+    //console.log(mq);
     var inview = document.getElementById('in');
     var outview = document.getElementById('out');
     var isMDViewOn = document.getElementById('viewbutton').classList.contains('selected');
