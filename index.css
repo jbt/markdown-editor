@@ -243,6 +243,9 @@
     padding-left: 0%;
     left:0;
  }
+#out .focused {
+    border-left: 0 !important;
+}
 
 @media screen and (max-width: 1024px) {
      .focused {
