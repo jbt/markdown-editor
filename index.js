@@ -209,6 +209,12 @@ function toggleNightMode(button) {
     document.getElementById('toplevel').classList.toggle('nightmode');
 }
 
+function toggleReadMode(button) {
+    button.classList.toggle('selected');
+    document.getElementById('out').classList.toggle('focused');
+    document.getElementById('in').classList.toggle('hidden');
+}
+
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip

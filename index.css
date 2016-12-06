@@ -235,6 +235,14 @@
      display: none !important;
  }
 
+ .focused {
+    display: block;
+    width:50%;
+    margin-left: -25%;
+    padding-left: 0%;
+    left:0;
+ }
+
  .nightmode #in {
      filter: invert(100%);
  }
@@ -262,3 +270,4 @@
          display: none !important;
      }
  }
+
