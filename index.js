@@ -107,12 +107,12 @@ document.addEventListener('drop', function(e) {
 
 //Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsMarkdown() {
-    save(editor.getValue(), encodeURIComponent(document.title).replace(/%20/g,'')+".md");
+    save(editor.getValue(), document.title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]/gi, '')+".md");
 }
 
 //Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsHtml() {
-    save(document.getElementById('out').innerHTML, encodeURIComponent(document.title).replace(/%20/g,'')+".html");
+    save(document.getElementById('out').innerHTML, document.title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]/gi, '')+".html");
 }
 
 document.getElementById('saveas-markdown').addEventListener('click', function() {
