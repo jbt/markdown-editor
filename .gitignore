@@ -1,0 +1,13 @@
+# npm install
+node_modules/
+
+# electron binary packages
+bin/
+markdown-editor-*.tar.gz
+markdown-editor-*.zip
+
+# PKGBUILD
+dist/src/
+dist/pkg/
+*.pkg.tar.xz
+
