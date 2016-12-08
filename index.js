@@ -157,6 +157,23 @@ function hideMenu() {
     menu.style.display = 'none';
 }
 
+function openFile(evt) {
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        var files = evt.target.files;
+        console.log(files);
+        var reader = new FileReader();
+        reader.onload = function(file) {
+            console.log(file.target.result);
+            editor.setValue(file.target.result);
+            return true;
+        };
+        reader.readAsText(files[0]);
+
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+}
+
 document.getElementById('close-menu').addEventListener('click', function() {
     hideMenu();
 });
@@ -266,6 +283,7 @@ function start() {
     }
 
     initEditor();
+    document.getElementById('fileInput').addEventListener('change', openFile, false);
 }
 
 start();

@@ -34,8 +34,11 @@
     </div>
     <div id="navbar">
       <div id="navcontent">
-        <a href = "https://github.com/aero31aero/markdown-editor" tooltip = "Check out the code on Github!"><p id="title" class="left"># Markdown Editor</p></a>
-        <p id="openbutton" class="navbutton left hidden">Open</p>
+        <a href = "https://github.com/aero31aero/markdown-editor" tooltip = "Check out the code on Github!">
+          <p id="title" class="left"># Markdown Editor</p>
+        </a>
+        <p id="openbutton" class="navbutton left" onclick="document.getElementById('fileInput').click();">Open</p>
+        <input id="fileInput" type="file" class="hidden" accept=".md,.mdown,.txt,.markdown"/>
         <p id="savebutton" class="navbutton left" onclick="showMenu()">Save</p>
         <p id="sharebutton" class="navbutton left" onclick="updateHash()">Generate Shareable URL</p>
         <p id="nightbutton" class="navbutton left" onclick="toggleNightMode(this)">Night Mode</p>
