@@ -36,14 +36,14 @@ function update(e) {
     //If a title is added to the document it will be the new document.title, otherwise use default
     var headerElements = document.querySelectorAll('h1');
     if (headerElements.length > 0 && headerElements[0].textContent.length > 0) {
-      title = headerElements[0].textContent;
+        title = headerElements[0].textContent;
     } else {
-      title = 'Markdown Editor'
+        title = 'Markdown Editor'
     }
-    
+
     //To avoid to much title changing we check if is not the same as before
     oldTitle = document.title;
-    if(oldTitle != title){
+    if (oldTitle != title) {
         oldTitle = title;
         document.title = title;
     }
@@ -107,12 +107,12 @@ document.addEventListener('drop', function(e) {
 
 //Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsMarkdown() {
-    save(editor.getValue(), document.title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]/gi, '')+".md");
+    save(editor.getValue(), document.title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]/gi, '') + ".md");
 }
 
 //Print the document named as the document title encoded to avoid strange chars and spaces
 function saveAsHtml() {
-    save(document.getElementById('out').innerHTML, document.title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]/gi, '')+".html");
+    save(document.getElementById('out').innerHTML, document.title.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/\s]/gi, '') + ".html");
 }
 
 document.getElementById('saveas-markdown').addEventListener('click', function() {
@@ -232,9 +232,34 @@ function manageSpiltView(mq) {
     }
 }
 
+function saveInBrowser() {
+    var text = editor.getValue();
+    if (localStorage.getItem('content')) {
+        swal({
+                title: "Existing Data Detected",
+                text: "You will overwrite the data previously saved!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, overwrite!",
+                closeOnConfirm: false
+            },
+            function() {
+                localStorage.setItem('content', text);
+                swal("Saved", "Your Document has been saved.", "success");
+            });
+    } else {
+        localStorage.setItem('content', text);
+        swal("Saved", "Your Document has been saved.", "success");
+    }
+    console.log("Saved");
+}
+
 function toggleEditorView(button) {
     button.classList.toggle('selected');
-    manageSpiltView({ matches: true });
+    manageSpiltView({
+        matches: true
+    });
 }
 
 function toggleNightMode(button) {
@@ -274,14 +299,12 @@ function start() {
                     )
                 ))
             );
-            update(editor);
-            editor.focus();
         }
-    } else {
-        update(editor);
-        editor.focus();
+    } else if (localStorage.getItem('content')) {
+        editor.setValue(localStorage.getItem('content'));
     }
-
+    update(editor);
+    editor.focus();
     initEditor();
     document.getElementById('fileInput').addEventListener('change', openFile, false);
 }
