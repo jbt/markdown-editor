@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Markdown Editor</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="lib/base16-light.css">
     <link rel="stylesheet" href="codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="lib/default.css">
@@ -38,13 +39,13 @@
         <a href = "https://github.com/aero31aero/markdown-editor" tooltip = "Check out the code on Github!">
           <p id="title" class="left"># Markdown Editor</p>
         </a>
-        <p id="openbutton" class="navbutton left" onclick="document.getElementById('fileInput').click();">Open</p>
+        <p id="openbutton" title="Open from Disk" class="navbutton left" onclick="document.getElementById('fileInput').click();"><i class="material-icons">open_in_browser</i></p>
         <input id="fileInput" type="file" class="hidden" accept=".md,.mdown,.txt,.markdown"/>
-        <p id="savebutton" class="navbutton left" onclick="showMenu()">Save</p>
-        <p id="browsersavebutton" class="navbutton left" onclick="saveInBrowser()">Browser Save(Experimental)</p>
-        <p id="sharebutton" class="navbutton left" onclick="updateHash()">Generate Shareable URL</p>
-        <p id="nightbutton" class="navbutton left" onclick="toggleNightMode(this)">Night Mode</p>
-        <p id="readbutton" class="navbutton left" onclick="toggleReadMode(this)">Reading Mode</p>
+        <p id="savebutton" title="Download" class="navbutton left" onclick="showMenu()"><i class="material-icons">file_download</i></p>
+        <p id="browsersavebutton" title="Browser Save(Experimental)" class="navbutton left" onclick="saveInBrowser()"><i class="material-icons">save</i></p>
+        <p id="sharebutton" title="Generate Shareable Link" class="navbutton left" onclick="updateHash()"><i class="material-icons">share</i></p>
+        <p id="nightbutton" title="Night Mode" class="navbutton left" onclick="toggleNightMode(this)"><i class="material-icons">invert_colors</i></p>
+        <p id="readbutton" title="Reading Mode" class="navbutton left" onclick="toggleReadMode(this)"><i class="material-icons">chrome_reader_mode</i></p>
         <p id="newbutton" class="navbutton left hidden" onclick="clearEditor()">Clear</p>
         <p id="sharebutton" class="navbutton left selected hidden">Share</p>
         <p id="viewbutton" class="navbutton right" onclick="toggleEditorView(this)">Show Editor</p>
