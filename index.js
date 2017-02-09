@@ -300,6 +300,8 @@ function start() {
                 ))
             );
         }
+        var readbutton = document.getElementById('readbutton');
+        readbutton.click();
     } else if (localStorage.getItem('content')) {
         editor.setValue(localStorage.getItem('content'));
     }
