@@ -180,7 +180,7 @@ document.getElementById('close-menu').addEventListener('click', function() {
 
 document.addEventListener('keydown', function(e) {
     if (e.keyCode == 83 && (e.ctrlKey || e.metaKey)) {
-        e.shiftKey ? showMenu() : saveAsMarkdown();
+        e.shiftKey ? showMenu() : saveInBrowser();
 
         e.preventDefault();
         return false;
