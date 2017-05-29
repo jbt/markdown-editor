@@ -78,7 +78,7 @@ CodeMirror.defineMode("gfm", function(config, modeConfig) {
       }
       if (stream.sol() || state.ateSpace) {
         state.ateSpace = false;
-        if(stream.match(/^(?:[a-zA-Z0-9\-_]+\/)?(?:[a-zA-Z0-9\-_]+@)?(?:[a-f0-9]{7,40}\b)/)) {
+        if(stream.match(/^(?:[a-zA-Z0-9\-_]+\/)?(?:[a-zA-Z0-9\-_]+@)?(#)(?:[a-f0-9]{7,40}\b)/)) {
           // User/Project@SHA
           // User@SHA
           // SHA
