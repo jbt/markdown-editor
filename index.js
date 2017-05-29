@@ -93,6 +93,37 @@ var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
 
 editor.on('change', update);
 
+function selectionChanger(selection,operator,endoperator){
+    if(selection == ""){
+        return operator;
+    }
+    if(!endoperator){
+        endoperator = operator
+    }
+    var isApplied = selection.slice(0, 2) === operator && seisAppliedection.slice(-2) === endoperator;
+    var finaltext = isApplied ? selection.slice(2, -2) : operator + selection + endoperator;
+    return finaltext;
+}
+
+editor.addKeyMap({
+    // bold
+    'Ctrl-B': function(cm) {
+        cm.replaceSelection(selectionChanger(cm.getSelection(),'**'));
+    },
+    // italic
+    'Ctrl-I': function(cm) {
+        cm.replaceSelection(selectionChanger(cm.getSelection(),'_'));
+    },
+    // code
+    'Ctrl-K': function(cm) {
+        cm.replaceSelection(selectionChanger(cm.getSelection(),'`'));
+    },
+    // keyboard shortcut
+    'Ctrl-L': function(cm) {
+        cm.replaceSelection(selectionChanger(cm.getSelection(),'<kbd>','</kbd>'));
+    }
+});
+
 document.addEventListener('drop', function(e) {
     e.preventDefault();
     e.stopPropagation();
