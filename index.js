@@ -229,40 +229,6 @@ function clearEditor() {
     editor.setValue("");
 }
 
-function initEditor() {
-    var mq = window.matchMedia("screen and (max-width: 1024px)");
-    mq.addListener(manageSpiltView);
-}
-
-function manageSpiltView(mq) {
-    //console.log(mq);
-    var inview = document.getElementById('in');
-    var outview = document.getElementById('out');
-    var isMDViewOn = document.getElementById('viewbutton').classList.contains('selected');
-    if (mq.matches) {
-        //HALF VIEW
-        if (isMDViewOn) {
-            //SHOW EDITOR
-            inview.style.display = 'block';
-            inview.style.width = '100%';
-            outview.style.display = 'none';
-        } else {
-            //SHOW HTML
-            inview.style.display = 'none';
-            outview.style.display = 'block';
-            outview.style.left = '0';
-            outview.paddingLeft = '10px'
-        }
-    } else {
-        //FULL VIEW
-        inview.style.width = '50%';
-        inview.style.display = 'block';
-        outview.style.paddingLeft = '20px';
-        outview.style.left = '50%';
-        outview.style.display = 'block';
-    }
-}
-
 function saveInBrowser() {
     var text = editor.getValue();
     if (localStorage.getItem('content')) {
@@ -284,13 +250,6 @@ function saveInBrowser() {
         swal("Saved", "Your Document has been saved.", "success");
     }
     console.log("Saved");
-}
-
-function toggleEditorView(button) {
-    button.classList.toggle('selected');
-    manageSpiltView({
-        matches: true
-    });
 }
 
 function toggleNightMode(button) {
@@ -338,7 +297,6 @@ function start() {
     }
     update(editor);
     editor.focus();
-    initEditor();
     document.getElementById('fileInput').addEventListener('change', openFile, false);
 }
 

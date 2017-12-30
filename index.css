@@ -108,12 +108,23 @@
      vertical-align: baseline;
  }
 
- @media screen and (max-width: 1024px) {
-     .left {
-         display: none !important;
+@media screen and (max-width: 1024px) {
+     #in, #out {
+        margin: 0;
+        left: 0;
+        width: 95%;
      }
-     #viewbutton {
-         display: inline-block !important;
+
+     #in {
+        z-index: 1000;
+     }
+
+     a#logo {
+        display: none;
+     }
+
+     .navbutton {
+        margin-left: 5px !important;
      }
  }
 
