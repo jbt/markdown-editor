@@ -112,7 +112,7 @@
   overflow: hidden;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #aaa;
 }
 
 .markdown-body hr::before {
@@ -315,7 +315,7 @@
   padding-bottom: 0.3em;
   font-size: 2.25em;
   line-height: 1.2;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #aaa;
 }
 
 .markdown-body h1 .anchor {
@@ -326,7 +326,7 @@
   padding-bottom: 0.3em;
   font-size: 1.75em;
   line-height: 1.225;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #aaa;
 }
 
 .markdown-body h2 .anchor {
@@ -691,5 +691,5 @@
 }
 
 .markdown-body hr {
-  border-bottom-color: #eee;
+  border-bottom-color: #aaa;
 }
