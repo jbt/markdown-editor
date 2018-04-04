@@ -273,7 +273,30 @@ function updateHash() {
     );
 }
 
+function processQueryParams() {
+    var params = window.location.search.split('?')[1];
+    if (params) {
+        var obj = {};
+        console.log(params);
+        params.split('&').forEach(function(elem) {
+            console.log(elem);
+            obj[elem.split('=')[0]] = elem.split('=')[1];
+        });
+        console.log(obj);
+        if (window.location.hash) {
+            document.getElementById('readbutton').click(); // Show reading view
+        }
+        if (obj.reading === 'false') {
+            document.getElementById('readbutton').click(); // Hide reading view
+        }
+        if (obj.dark === 'true') {
+            document.getElementById('nightbutton').click(); // Show night view
+        }
+    }
+}
+
 function start() {
+    processQueryParams();
     if (window.location.hash) {
         var h = window.location.hash.replace(/^#/, '');
         if (h.slice(0, 5) == 'view:') {
@@ -290,8 +313,6 @@ function start() {
                 ))
             );
         }
-        var readbutton = document.getElementById('readbutton');
-        readbutton.click();
     } else if (localStorage.getItem('content')) {
         editor.setValue(localStorage.getItem('content'));
     }
