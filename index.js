@@ -275,17 +275,14 @@ function updateHash() {
 
 function processQueryParams() {
     var params = window.location.search.split('?')[1];
+    if (window.location.hash) {
+        document.getElementById('readbutton').click(); // Show reading view
+    }
     if (params) {
         var obj = {};
-        console.log(params);
         params.split('&').forEach(function(elem) {
-            console.log(elem);
             obj[elem.split('=')[0]] = elem.split('=')[1];
         });
-        console.log(obj);
-        if (window.location.hash) {
-            document.getElementById('readbutton').click(); // Show reading view
-        }
         if (obj.reading === 'false') {
             document.getElementById('readbutton').click(); // Hide reading view
         }
