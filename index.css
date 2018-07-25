@@ -1,6 +1,6 @@
  body {
      margin: 0;
-     background-color: rgb(245, 245, 245);
+     background-color: white;
  }
 
  .CodeMirror pre {
@@ -43,7 +43,7 @@
      overflow: auto;
      padding: 10px;
      padding-left: 20px;
-     background-color: rgb(245, 245, 245);
+     background-color: white;
      border-left: 2px solid #444;
  }
 
