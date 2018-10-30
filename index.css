@@ -280,6 +280,11 @@ body{
      filter: invert(0%);
  }
 
+ .nightmode img {
+    filter: invert(100%);
+    background: black; /* to deal with inverting transparent images */
+ }
+
  .no-spellcheck .cm-spell-error {
     background: none !important;
  }
