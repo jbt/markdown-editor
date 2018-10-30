@@ -267,6 +267,11 @@ function toggleReadMode(button) {
     document.getElementById('in').classList.toggle('hidden');
 }
 
+function toggleSpellCheck(button) {
+    button.classList.toggle('selected');
+    document.body.classList.toggle('no-spellcheck');
+}
+
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip

@@ -280,6 +280,10 @@ body{
      filter: invert(0%);
  }
 
+ .no-spellcheck .cm-spell-error {
+    background: none !important;
+ }
+
  @media print {
      #in {
          display: none !important;
