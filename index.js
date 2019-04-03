@@ -223,7 +223,7 @@ editor.addKeyMap({
     cm.replaceSelection('```javascript' + selection + '\n'+'\n' +'```');
     if (!selection) {
       var cursorPos = cm.getCursor();
-      cm.setCursor(cursorPos.line, cursorPos.ch - 4);
+      cm.setCursor(cursorPos.line -1, cursorPos.ch);
     }
   },
 });
