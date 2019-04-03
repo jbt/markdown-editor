@@ -220,10 +220,10 @@ editor.addKeyMap({
   //codeblock
   "Shift-Ctrl-'": function(cm) {
     var selection = cm.getSelection();
-    cm.replaceSelection('```javasctipt' + selection + '\n'+'```');
+    cm.replaceSelection('```javascript' + selection + '\n'+'\n' +'```');
     if (!selection) {
       var cursorPos = cm.getCursor();
-      cm.setCursor(cursorPos.line, cursorPos.ch - 3);
+      cm.setCursor(cursorPos.line, cursorPos.ch - 4);
     }
   },
 });
