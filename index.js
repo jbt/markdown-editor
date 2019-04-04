@@ -220,7 +220,7 @@ editor.addKeyMap({
   //codeblock
   "Shift-Ctrl-'": function(cm) {
     var selection = cm.getSelection();
-    cm.replaceSelection('```javascript' + selection + '\n'+'\n' +'```');
+    cm.replaceSelection('```javascript' + '\n' + selection+'\n' +'```');
     if (!selection) {
       var cursorPos = cm.getCursor();
       cm.setCursor(cursorPos.line -1, cursorPos.ch);
