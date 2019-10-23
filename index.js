@@ -294,6 +294,10 @@ function toggleSpellCheck(button) {
     button.classList.toggle('selected');
     document.body.classList.toggle('no-spellcheck');
 }
+function toggleWarning(button) {
+    button.classList.toggle('selected');
+    document.getElementById('noselect').classList.toggle('warningmode');
+}
 
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
