@@ -277,13 +277,16 @@ function toggleWarning(button) {
 
 }
 
-var unmatched_char = CodeMirror.fromTextArea(document.getElementById('code'), {
-    lineNumbers: true,
-    matchBrackets: true,
-    lineWrapping: true,
-    theme: 'base16-light'
+var unmatched_char = function(str) {
+    var regex=/(.<)/;
+    var code=CodeMirror.fromTextArea(str);
+    if(code.match(regex))
+    {
+        
+    }
+
+}
     
-    })
 
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
