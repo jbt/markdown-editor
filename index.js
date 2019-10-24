@@ -273,8 +273,17 @@ function toggleSpellCheck(button) {
 }
 function toggleWarning(button) {
     button.classList.toggle('selected');
-    document.getElementById('noselect').classList.toggle('warningmode');
+    `document.getElementById('noselect').classList.toggle('warningmode');`
+
 }
+
+var unmatched_char = CodeMirror.fromTextArea(document.getElementById('code'), {
+    lineNumbers: true,
+    matchBrackets: true,
+    lineWrapping: true,
+    theme: 'base16-light'
+    
+    })
 
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
