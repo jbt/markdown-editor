@@ -55,34 +55,11 @@ function setOutput(val) {
     val = val.replace(/<equation>((.*?\n)*?.*?)<\/equation>/ig, function(a, b) {
         return '<img src="http://latex.codecogs.com/png.latex?' + encodeURIComponent(b) + '" />';
     });
-    /*
-    val = val.replace(/- [(.)] (\w+)/gi, function(x, a, b){
-        var icon_html = '<input type="checkbox" ';
-        icon_html += (a == ' ')? 'checked style="margin: 0 0.2em 0 -1.3em;">': 'style="list-style-type: none;">';
-        return '<input type="checkbox" '+a+b+'<br />';
-    });
-    */
+
     var out = document.getElementById('out');
     var old = out.cloneNode(true);
     out.innerHTML = md.render(val);
     emojify.run(out);
-    console.log(out.innerHTML);
-    if(out.innerHTML.match(/(<li)(>\[x\] )(\w+<\/li>)/)){
-        out.innerHTML = out.innerHTML.replace(/(<li)(>\[x\] )(\w+<\/li>)/, `
-        $1 style="list-style-type: none;">
-        <input type="checkbox" checked 
-        style="list-style-type: none; 
-        margin: 0 0.2em 0 -1.3em;"> $3`
-        );
-    }
-    if(out.innerHTML.match(/(<li)(>\[ \] )(\w+<\/li>)/)){
-        out.innerHTML = out.innerHTML.replace(/(<li)(>\[ \] )(\w+<\/li>)/, `
-        $1 style="list-style-type: none;">
-        <input type="checkbox" 
-        style="list-style-type: none; 
-        margin: 0 0.2em 0 -1.3em;"> $3`
-        );
-    }
 
     var allold = old.getElementsByTagName("*");
     if (allold === undefined) return;
