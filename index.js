@@ -296,19 +296,11 @@ function toggleSpellCheck(button) {
 }
 function toggleWarning(button) {
     button.classList.toggle('selected');
-    `document.getElementById('noselect').classList.toggle('warningmode');`
-
+    var toggleLint=CodeMirror.defaults;//should disable the jshint that is producing the warnings
+    toggleLint.CodeMirror.lint=false;
+    toggleLint=CodeMirror(document.body, toggleLint);
 }
 
-var unmatched_char = function(str) {
-    var regex=/(.<)/;
-    var code=CodeMirror.fromTextArea(str);
-    if(code.match(regex))
-    {
-        
-    }
-
-}
     
 
 function updateHash() {
