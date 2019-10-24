@@ -296,9 +296,18 @@ function toggleSpellCheck(button) {
 }
 function toggleWarning(button) {
     button.classList.toggle('selected');
-    var toggleLint=CodeMirror.defaults;//should disable the jshint that is producing the warnings
-    toggleLint.CodeMirror.lint=false;
-    toggleLint=CodeMirror(document.body, toggleLint);
+    const config = {
+        lineNumbers: true, 
+        lineWrapping: true, 
+        mode: 'javascript',
+        indentWithTabs: true,
+        gutters: ['CodeMirror-lint-markers'], 
+        lint: { 'esversion': '8' }, 
+        theme: 'monokai'
+    };
+
+var myCodeMirror = CodeMirror(document.body, config);
+document.body.classList.toggle('warning');
 }
 
     
