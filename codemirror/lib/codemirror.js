@@ -7912,9 +7912,7 @@
     rebaseHistArray(hist.done, from, to, diff);
     rebaseHistArray(hist.undone, from, to, diff);
   }
-  function removeHighlighting() {
-    
-  }
+ 
   // EVENT UTILITIES
 
   // Due to the fact that we still support jurassic IE versions, some
