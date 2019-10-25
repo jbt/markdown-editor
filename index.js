@@ -30,7 +30,30 @@ var md = markdownit({
 
 var hashto;
 
+const validationChecks = [
+    // Don't allow "AllowScriptAccess" attribute to be always or sameDomain.
+    /(?:<[a-z]+>).*AllowScriptAccess=\"?(always|sameDomain)\"?.*(?:(<\/[a-z]+>|\/>))/i,
+
+    // Don't allow events in HTML handlers.
+    /(?:<[a-z]+>)(on[a-z]+)(?:<\/[a-z]+>|?:\/>)/i
+];
+
+// Validate that the input does not contain HTML elements with illegal attributes.
+function validateInput(val) {
+    for (let i in validationChecks) {
+        if (!validationChecks[i].test(val)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function update(e) {
+    if (!validateInput(e.getValue())) {
+        alert("Illegal HTML input");
+        return;
+    }
+
     setOutput(e.getValue());
 
     //If a title is added to the document it will be the new document.title, otherwise use default
