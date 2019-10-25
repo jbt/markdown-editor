@@ -299,8 +299,11 @@ function toggleWarning(button) {
     const config = {
         lint: false
     };
-
-//var myCodeMirror = CodeMirror(document.body, config);
+    const config2 = {
+        lint: true
+    };
+CodeMirror(document.getElementById('in'),config);
+CodeMirror(document.getElementById('in'),config2 );
 
 document.getElementById('toplevel').classList.toggle('warning');
 }
