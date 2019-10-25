@@ -297,17 +297,12 @@ function toggleSpellCheck(button) {
 function toggleWarning(button) {
     button.classList.toggle('selected');
     const config = {
-        lineNumbers: true, 
-        lineWrapping: true, 
-        mode: 'javascript',
-        indentWithTabs: true,
-        gutters: ['CodeMirror-lint-markers'], 
-        lint: { 'esversion': '8' }, 
-        theme: 'monokai'
+        lint: false
     };
 
-var myCodeMirror = CodeMirror(document.body, config);
-document.body.classList.toggle('warning');
+//var myCodeMirror = CodeMirror(document.body, config);
+
+document.getElementById('toplevel').classList.toggle('warning');
 }
 
     
