@@ -289,6 +289,10 @@ body{
     background: none !important;
  }
 
+ span.cm-error {
+    background: #ac414222 !important; /* to deal with inline HTML breaking highlighting */
+}
+
  @media print {
      #in {
          display: none !important;
