@@ -127,7 +127,7 @@ function selectionChanger(selection,operator,endoperator){
     if(!endoperator){
         endoperator = operator
     }
-    var isApplied = selection.slice(0, 2) === operator && seisAppliedection.slice(-2) === endoperator;
+    var isApplied = selection.slice(0, 2) === operator && selection.slice(-2) === endoperator;
     var finaltext = isApplied ? selection.slice(2, -2) : operator + selection + endoperator;
     return finaltext;
 }
