@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 -
 
 ### Changed
--
+- fixed padding on cm-scroll changed from 30 to 50pxx
 
 ### Fixed
 
