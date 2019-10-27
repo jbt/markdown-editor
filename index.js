@@ -111,9 +111,11 @@ function setOutput(val) {
 
     var out = document.getElementById('out');
     var old = out.cloneNode(true);
+    val=val.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ")
     out.innerHTML = md.render(val);
     emojify.run(out);
-    val=footnoteCheck(val);
+    //val=footnoteCheck(val);
+    //val=val.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ")
     var allold = old.getElementsByTagName("*");
     if (allold === undefined) return;
 
@@ -382,13 +384,10 @@ function start() {
 
 const footnotecheck=
 {
-    /*
+    
     RequestingScriptAccess: /\^[^\]]*\].*AllowScriptAccess\s*=\s*"?\s*(always|sameDomain)\s*"?.*(>.*<\/[a-z]+>|\/>)/ig, // regex for [^1]
-    SettingEventHandler: /<[a-z]+\s+.*on[a-z]+\s*=\s*"?.*"?.*(>.*<\/[a-z]+>|\/>)/ig*/
-    if()
-    {
-
-    }
+    SettingEventHandler: /<[a-z]+\s+.*on[a-z]+\s*=\s*"?.*"?.*(>.*<\/[a-z]+>|\/>)/ig
+    
 }
 
 function footnoteValidation(val)
