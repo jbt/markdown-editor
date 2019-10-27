@@ -133,22 +133,126 @@ function selectionChanger(selection,operator,endoperator){
 }
 
 editor.addKeyMap({
-    // bold
-    'Ctrl-B': function(cm) {
-        cm.replaceSelection(selectionChanger(cm.getSelection(),'**'));
-    },
-    // italic
-    'Ctrl-I': function(cm) {
-        cm.replaceSelection(selectionChanger(cm.getSelection(),'_'));
-    },
-    // code
-    'Ctrl-K': function(cm) {
-        cm.replaceSelection(selectionChanger(cm.getSelection(),'`'));
-    },
-    // keyboard shortcut
-    'Ctrl-L': function(cm) {
-        cm.replaceSelection(selectionChanger(cm.getSelection(),'<kbd>','</kbd>'));
+  // bold
+  'Ctrl-B': function(cm) {
+    var selection = cm.getSelection();
+    cm.replaceSelection('**' + selection + '**');
+    if (!selection) {
+      var cursorPos = cm.getCursor();
+      cm.setCursor(cursorPos.line, cursorPos.ch - 2);
     }
+  },
+  // italic
+  'Ctrl-I': function(cm) {
+    var selection = cm.getSelection();
+    cm.replaceSelection('_' + selection + '_');
+    if (!selection) {
+      var cursorPos = cm.getCursor();
+      cm.setCursor(cursorPos.line, cursorPos.ch - 1);
+    }
+  },
+  // code
+  'Ctrl-K': function(cm) {
+    var selection = cm.getSelection();
+    cm.replaceSelection('`' + selection + '`');
+    if (!selection) {
+      var cursorPos = cm.getCursor();
+      cm.setCursor(cursorPos.line, cursorPos.ch - 1);
+    }
+  },
+  // keyboard shortcut
+  'Ctrl-L': function(cm) {
+    cm.replaceSelection(selectionChanger(cm.getSelection(), '<kbd>', '</kbd>'));
+  },
+  //Heading 1
+  'Ctrl-Alt-1': function(cm) {
+    cm.replaceSelection('# ' + cm.getSelection());
+  },
+  //Heading 2
+  'Ctrl-Alt-2': function(cm) {
+    cm.replaceSelection('## ' + cm.getSelection());
+  },
+  //Heading 3
+  'Ctrl-Alt-3': function(cm) {
+    cm.replaceSelection('### ' + cm.getSelection());
+  },
+  //Heading 4
+  'Ctrl-Alt-4': function(cm) {
+    cm.replaceSelection('#### ' + cm.getSelection());
+  },
+  //Heading 5
+  'Ctrl-Alt-5': function(cm) {
+    cm.replaceSelection('##### ' + cm.getSelection());
+  },
+  //Heading 6
+  'Ctrl-Alt-6': function(cm) {
+    cm.replaceSelection('###### ' + cm.getSelection());
+  },
+  // Links
+  'Shift-Ctrl-L': function(cm) {
+    var selection = cm.getSelection();
+    var text = '';
+    var link = '';
+
+    if (selection.match(/^https?:\/\//)) {
+      link = selection;
+    } else {
+      text = selection;
+    }
+    cm.replaceSelection('[' + text + '](' + link + ')');
+
+    var cursorPos = cm.getCursor();
+    if (!selection) {
+      cm.setCursor(cursorPos.line, cursorPos.ch - 3);
+    } else if (link) {
+      cm.setCursor(cursorPos.line, cursorPos.ch - (3 + link.length));
+    } else {
+      cm.setCursor(cursorPos.line, cursorPos.ch - 1);
+    }
+  },
+  // Insert Image
+  'Shift-Ctrl-I': function(cm) {
+    var selection = cm.getSelection();
+    var text = '';
+    var link = '';
+
+    if (selection.match(/^https?:\/\//)) {
+      link = selection;
+    } else {
+      text = selection;
+    }
+    cm.replaceSelection('![' + text + '](' + link + ')');
+
+    var cursorPos = cm.getCursor();
+    if (!selection) {
+      cm.setCursor(cursorPos.line, cursorPos.ch - 3);
+    } else if (link) {
+      cm.setCursor(cursorPos.line, cursorPos.ch - (3 + link.length));
+    } else {
+      cm.setCursor(cursorPos.line, cursorPos.ch - 1);
+    }
+  },
+  //Unordered list
+  'Shift-U': function(cm) {
+    cm.replaceSelection('* ' + cm.getSelection());
+  },
+  //Ordered list
+  'Shift-O': function(cm) {
+    cm.replaceSelection('1. ' + cm.getSelection());
+  },
+  //Blockquote
+  'Shift-Ctrl-.': function(cm) {
+    cm.replaceSelection('> ' + cm.getSelection());
+  },
+  //codeblock
+  "Shift-Ctrl-'": function(cm) {
+    var selection = cm.getSelection();
+    cm.replaceSelection('```javascript' + '\n' + selection+'\n' +'```');
+    if (!selection) {
+      var cursorPos = cm.getCursor();
+      cm.setCursor(cursorPos.line -1, cursorPos.ch);
+    }
+  },
 });
 
 document.addEventListener('drop', function(e) {
