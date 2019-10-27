@@ -397,14 +397,9 @@ function footnoteValidation(val)
 }
 
 var footnoteCheck=function(str){
-    /*if(str.match(/\^[^\]]*\]/g))
-    {
-        
-        str.replace(/\^[^\]]*\]/g," ");
-    }
     
-    return str;*/
-     str.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ");
+     str=str.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ");
+     return str;
 }
 
 window.addEventListener("beforeunload", function (e) {
