@@ -12,4 +12,4 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- fixed padding on the scroll. Addresses issue [#92](https://github.com/jbt/markdown-editor/issues/92).
+- use regex to find where there is footnote notations. Addresses issue [#112](https://github.com/jbt/markdown-editor/issues/112).
