@@ -339,7 +339,7 @@ window.addEventListener("beforeunload", function (e) {
 editor.on('change',function()
 {
 editor.getScrollInfo();
-editor.scrollTo(editor.left,editor.bottom+50);
+editor.scrollTo(editor.left,editor.bottom);
 })
 
 
