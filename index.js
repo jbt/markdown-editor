@@ -114,8 +114,6 @@ function setOutput(val) {
     val=val.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ")
     out.innerHTML = md.render(val);
     emojify.run(out);
-    //val=footnoteCheck(val);
-    //val=val.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ")
     var allold = old.getElementsByTagName("*");
     if (allold === undefined) return;
 
@@ -382,24 +380,6 @@ function start() {
     document.getElementById('fileInput').addEventListener('change', openFile, false);
 }
 
-const footnotecheck=
-{
-    
-    RequestingScriptAccess: /\^[^\]]*\].*AllowScriptAccess\s*=\s*"?\s*(always|sameDomain)\s*"?.*(>.*<\/[a-z]+>|\/>)/ig, // regex for [^1]
-    SettingEventHandler: /<[a-z]+\s+.*on[a-z]+\s*=\s*"?.*"?.*(>.*<\/[a-z]+>|\/>)/ig
-    
-}
-
-function footnoteValidation(val)
-{
-
-}
-
-var footnoteCheck=function(str){
-    
-     str=str.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ");
-     return str;
-}
 
 window.addEventListener("beforeunload", function (e) {
     if (!editor.getValue() || editor.getValue() == localStorage.getItem('content')) {

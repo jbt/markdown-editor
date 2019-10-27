@@ -1,0 +1,15 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+
+## 2019-10-25
+
+### Added
+-
+
+### Changed
+-
+
+### Fixed
+
+- fixed padding on the scroll. Addresses issue [#92](https://github.com/jbt/markdown-editor/issues/92).
