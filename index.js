@@ -113,10 +113,7 @@ function setOutput(val) {
     var old = out.cloneNode(true);
     out.innerHTML = md.render(val);
     emojify.run(out);
-    console.log(out.innerHTML);
-    // Checks if there are any task-list present in out.innerHTML
-    out.innerHTML = render_tasklist(out.innerHTML);
-
+    val=footnoteCheck(val);
     var allold = old.getElementsByTagName("*");
     if (allold === undefined) return;
 
@@ -381,6 +378,21 @@ function start() {
     update(editor);
     editor.focus();
     document.getElementById('fileInput').addEventListener('change', openFile, false);
+}
+/*
+const footnotecheck=
+{
+    RequestingScriptAccess: /\[\^[0-9]\] AllowScriptAccess\s*=\s*"?\s*(always|sameDomain)\s*"?.*(>.*<\/[a-z]+>|\/>)/ig, // regex for [^1]
+    SettingEventHandler: /<[a-z]+\s+.*on[a-z]+\s*=\s*"?.*"?.*(>.*<\/[a-z]+>|\/>)/ig
+}
+*/
+var footnoteCheck=function(str){
+    if(str.match(/^[^\]]*\]:+"Footnote/))
+    {
+        console.log(str);
+        str.replace(/^[^\]]*\]:+"Footnote/,'');
+    }
+    return str;
 }
 
 window.addEventListener("beforeunload", function (e) {
