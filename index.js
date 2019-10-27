@@ -404,8 +404,7 @@ var footnoteCheck=function(str){
     }
     
     return str;*/
-     str.replace(
-        /\[\^.\]\:?\s[a-zA-Z0-9_-]*/ , " ");
+     str.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ");
 }
 
 window.addEventListener("beforeunload", function (e) {
