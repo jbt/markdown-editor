@@ -58,6 +58,7 @@ function setOutput(val) {
 
     var out = document.getElementById('out');
     var old = out.cloneNode(true);
+    val=val.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ");
     out.innerHTML = md.render(val);
     emojify.run(out);
 
