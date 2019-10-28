@@ -7,9 +7,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 -
 ### Changed
--[index.js](https://github.com/austinmm/markdown-editor/blob/chris_nguyen_break_highlighting2/index.js)
--[index.html](https://github.com/austinmm/markdown-editor/blob/chris_nguyen_break_highlighting2/index.html)
--[index.css](https://github.com/austinmm/markdown-editor/blob/chris_nguyen_break_highlighting2/index.css)
+- [index.js](https://github.com/austinmm/markdown-editor/blob/chris_nguyen_break_highlighting2/index.js)
+- [index.html](https://github.com/austinmm/markdown-editor/blob/chris_nguyen_break_highlighting2/index.html)
+- [index.css](https://github.com/austinmm/markdown-editor/blob/chris_nguyen_break_highlighting2/index.css)
 
 
 ### Fixed
