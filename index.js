@@ -272,6 +272,20 @@ function toggleSpellCheck(button) {
     document.body.classList.toggle('no-spellcheck');
 }
 
+function toggleWarning(button) {
+    button.classList.toggle('selected');
+    const config = {
+        lint: false
+    };
+    const config2 = {
+
+        lint: true
+    };
+}
+CodeMirror(document.getElementById('in'),config);
+
+CodeMirror(document.getElementById('in'),config2 );
+
 function updateHash() {
     window.location.hash = btoa( // base64 so url-safe
         RawDeflate.deflate( // gzip
