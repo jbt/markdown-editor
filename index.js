@@ -61,7 +61,6 @@ function setOutput(val) {
     val=val.replace(/\[\^.\]\:?\s[a-zA-Z0-9_-]*/i , " ");
     out.innerHTML = md.render(val);
     emojify.run(out);
-
     var allold = old.getElementsByTagName("*");
     if (allold === undefined) return;
 
