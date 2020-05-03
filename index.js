@@ -1,14 +1,15 @@
-var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+let URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
 window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
 
 // Because highlight.js is a bit awkward at times
-var languageOverrides = {
+let languageOverrides = {
     js: 'javascript',
     html: 'xml'
 };
-
-var livestyles;
+let hashto;
+let livestyles;
+let previousValue = '';
 
 emojify.setConfig({
     img_dir: 'emoji'
@@ -28,10 +29,38 @@ var md = markdownit({
     })
     .use(markdownitFootnote);
 
-var hashto;
+const validationChecks = {
+    // Don't allow an "AllowScriptAccess" attribute to be always or sameDomain in HTML elements.
+    RequestingScriptAccess: /<[a-z]+\s+.*AllowScriptAccess\s*=\s*"?\s*(always|sameDomain)\s*"?.*(>.*<\/[a-z]+>|\/>)/ig, // case-insensitive
+
+    // Don't allow event handler attributes in HTML elements.
+    SettingEventHandler: /<[a-z]+\s+.*on[a-z]+\s*=\s*"?.*"?.*(>.*<\/[a-z]+>|\/>)/ig // case-insensitive
+};
+
+// Validate that the input does not contain HTML elements with illegal attributes.
+function validateInput(val) {
+    const keys = Object.keys(validationChecks);
+    for (let i in keys) {
+        const key = keys[i];
+        const test = validationChecks[key].test(val);
+        if (test) return key;
+    }
+    return null;
+}
 
 function update(e) {
-    setOutput(e.getValue());
+    let content = e.getValue();
+    if (content === previousValue) return;
+
+    const violation = validateInput(content);
+    if (violation) {
+        content = content.replace(validationChecks[violation], "");
+        editor.getDoc().setValue(content);
+        alert(`Illegal HTML input (${violation})`);
+    }
+
+    previousValue = content;
+    setOutput(content);
 
     //If a title is added to the document it will be the new document.title, otherwise use default
     var headerElements = document.querySelectorAll('h1');
