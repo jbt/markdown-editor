@@ -328,6 +328,7 @@ function processQueryParams() {
     }
 }
 
+
 function start() {
     processQueryParams();
     if (window.location.hash) {
@@ -363,5 +364,14 @@ window.addEventListener("beforeunload", function (e) {
     (e || window.event).returnValue = confirmationMessage; //Gecko + IE
     return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
 });
+
+
+editor.on('change',function()
+{
+editor.getScrollInfo();
+editor.scrollTo(editor.left,editor.bottom);
+})
+
+
 
 start();
